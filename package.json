@@ -23,10 +23,18 @@
   "author": "MarvinJWendt",
   "license": "MIT",
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/inquirer": "0.0.43",
+    "@types/node": "^10.12.18",
     "eslint": "^5.10.0",
     "eslint-plugin-prettier": "^3.0.0",
     "prettier": "^1.15.3",
     "tslint": "^5.12.0",
     "tslint-plugin-prettier": "^2.0.1"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "inquirer": "^6.2.1",
+    "is-git-repository": "^1.1.1"
   }
 }
