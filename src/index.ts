@@ -11,6 +11,11 @@ const isNPM = (): boolean => {
   return fs.existsSync("package.json")
 }
 
+const isVSCE = (): boolean => {
+  if (fs.existsSync("package.json") && fs.existsSync("node_modules/vscode")) return true
+  else return false
+}
+
 const log = console.log
 const info = chalk.magentaBright
 
@@ -26,6 +31,7 @@ const flow = () => {
   // Detect and register providers
   if (isGit()) registerProvider("GIT")
   if (isNPM()) registerProvider("NPM")
+  if (isVSCE()) registerProvider("VSCE")
 
   let questions: any = [
     // Only ask this question when a git repository is detected
@@ -55,6 +61,7 @@ const flow = () => {
     .then((answers: any) => {
       const publishToGIT = answers.provider.indexOf("GIT") > -1
       const publishToNPM = answers.provider.indexOf("NPM") > -1
+      const publishToVSCE = answers.provider.indexOf("VSCE") > -1
 
       if (isGit()) {
         const unstagedFiles = execSync("git diff --name-only").toString()
@@ -75,6 +82,11 @@ const flow = () => {
       if (publishToNPM) {
         log(info("Publishing to NPM.."))
         exec("npm publish")
+      }
+
+      if (publishToVSCE) {
+        log(info("Publishing to the Visual Studio Code Marketplace.."))
+        exec("vsce publish")
       }
 
       if (publishToGIT) {

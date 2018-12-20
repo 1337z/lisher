@@ -1,1 +1,1 @@
-export declare const run: (_args: string[]) => void
+export declare const run: (_args: string[]) => void;
