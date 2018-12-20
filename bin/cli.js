@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const index = require('../src/index')
+const index = require("../src/index");
 
-let args = process.argv.splice(process.execArgv.length + 2)
+let args = process.argv.splice(process.execArgv.length + 2);
 
-index.setup(args)
+index.setup(args);
