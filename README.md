@@ -39,4 +39,14 @@ lisher
 
 ## :clapper: Preview
 
-![Preview](https://i.imgur.com/VBAh6Jb.gif)
+### GIT
+
+![Preview GIT](https://i.imgur.com/CLg5uFW.gif)
+
+#### GIT with dirty working directory
+
+![Preview GIT dirty workdir](https://i.imgur.com/DXn0R11.gif)
+
+### VSCE & GIT
+
+![Preview VSCE](https://i.imgur.com/ljn4bti.gif)
