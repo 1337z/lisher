@@ -16,6 +16,7 @@
 
 - [x] Detect GIT repository
 - [x] Detect NPM module
+- [x] Detect unstaged changes
 - [ ] Detect VS Code extension
 
 ## :package: Install

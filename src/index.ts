@@ -2,8 +2,14 @@ import * as inquirer from "inquirer"
 import * as fs from "fs"
 import { execSync } from "child_process"
 import chalk from "chalk"
-const isGit = require("is-git-repository")()
-const isNPM = fs.existsSync("package.json")
+
+const isGit = (): boolean => {
+  return require("is-git-repository")()
+}
+
+const isNPM = (): boolean => {
+  return fs.existsSync("package.json")
+}
 
 const log = console.log
 const info = chalk.magenta
@@ -16,9 +22,10 @@ export const run = (_args: string[]) => {
   flow()
 }
 
-function flow() {
-  if (isGit) registerProvider("GIT")
-  if (isNPM) registerProvider("NPM")
+const flow = () => {
+  // Detect and register providers
+  if (isGit()) registerProvider("GIT")
+  if (isNPM()) registerProvider("NPM")
 
   let questions: any = [
     // Only ask this question when a git repository is detected
@@ -43,23 +50,39 @@ function flow() {
     }
   ]
 
-  inquirer.prompt(questions).then((answers: any) => {
-    if (answers.version != "Don't change the version") log(info(`Increasing the version (${answers.version})`))
+  inquirer
+    .prompt(questions)
+    .then((answers: any) => {
+      const publishToGIT = answers.provider.indexOf("GIT") > -1
+      const publishToNPM = answers.provider.indexOf("NPM") > -1
 
-    if (answers.version == "PATCH") exec("npm version patch")
-    if (answers.version == "MINOR") exec("npm version minor")
-    if (answers.version == "MAJOR") exec("npm version major")
+      if (isGit()) {
+        const unstagedFiles = execSync("git diff --name-only").toString()
+        if (unstagedFiles) {
+          log(info("Git working directory not clean!\nPlease commit your changes before publishing."))
+          log(unstagedFiles)
+          log(info("Aborting."))
+          throw Error("Git working directory not clean.")
+        }
+      }
 
-    if (answers.provider.indexOf("NPM") > -1) {
-      log(info("Publishing to NPM.."))
-      exec("npm publish")
-    }
+      if (answers.version != "Don't change the version") log(info(`Increasing the version (${answers.version})`))
 
-    if (answers.provider.indexOf("GIT") > -1) {
-      log(info("Pushing to git repository.."))
-      exec("git push --follow-tags")
-    }
-  })
+      if (answers.version == "PATCH") exec("npm version patch")
+      if (answers.version == "MINOR") exec("npm version minor")
+      if (answers.version == "MAJOR") exec("npm version major")
+
+      if (publishToNPM) {
+        log(info("Publishing to NPM.."))
+        exec("npm publish")
+      }
+
+      if (publishToGIT) {
+        log(info("Pushing to git repository.."))
+        exec("git push --follow-tags")
+      }
+    })
+    .catch(err => {})
 }
 
 const exec = (command: string) => {

@@ -14,8 +14,12 @@ const inquirer = __importStar(require("inquirer"));
 const fs = __importStar(require("fs"));
 const child_process_1 = require("child_process");
 const chalk_1 = __importDefault(require("chalk"));
-const isGit = require("is-git-repository")();
-const isNPM = fs.existsSync("package.json");
+const isGit = () => {
+    return require("is-git-repository")();
+};
+const isNPM = () => {
+    return fs.existsSync("package.json");
+};
 const log = console.log;
 const info = chalk_1.default.magenta;
 let args;
@@ -24,10 +28,11 @@ exports.run = (_args) => {
     args = _args;
     flow();
 };
-function flow() {
-    if (isGit)
+const flow = () => {
+    // Detect and register providers
+    if (isGit())
         registerProvider("GIT");
-    if (isNPM)
+    if (isNPM())
         registerProvider("NPM");
     let questions = [
         // Only ask this question when a git repository is detected
@@ -51,7 +56,20 @@ function flow() {
             }
         }
     ];
-    inquirer.prompt(questions).then((answers) => {
+    inquirer
+        .prompt(questions)
+        .then((answers) => {
+        const publishToGIT = answers.provider.indexOf("GIT") > -1;
+        const publishToNPM = answers.provider.indexOf("NPM") > -1;
+        if (isGit()) {
+            const unstagedFiles = child_process_1.execSync("git diff --name-only").toString();
+            if (unstagedFiles) {
+                log(info("Git working directory not clean!\nPlease commit your changes before publishing."));
+                log(unstagedFiles);
+                log(info("Aborting."));
+                throw Error("Git working directory not clean.");
+            }
+        }
         if (answers.version != "Don't change the version")
             log(info(`Increasing the version (${answers.version})`));
         if (answers.version == "PATCH")
@@ -60,16 +78,17 @@ function flow() {
             exec("npm version minor");
         if (answers.version == "MAJOR")
             exec("npm version major");
-        if (answers.provider.indexOf("NPM") > -1) {
+        if (publishToNPM) {
             log(info("Publishing to NPM.."));
             exec("npm publish");
         }
-        if (answers.provider.indexOf("GIT") > -1) {
+        if (publishToGIT) {
             log(info("Pushing to git repository.."));
             exec("git push --follow-tags");
         }
-    });
-}
+    })
+        .catch(err => { });
+};
 const exec = (command) => {
     child_process_1.execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] });
 };
