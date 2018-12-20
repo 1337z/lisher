@@ -4,7 +4,7 @@ import { execSync } from "child_process"
 import chalk from "chalk"
 
 const isGit = (): boolean => {
-  return require("is-git-repository")()
+  return fs.existsSync(".git")
 }
 
 const isNPM = (): boolean => {
