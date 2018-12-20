@@ -14,16 +14,16 @@
 
 ### Publish providers
 
-- [x] GIT
-- [x] NPM (Node Package Manager)
-- [x] VSCE (Visual Studio Code Extension [Marketplace])
+- GIT
+- NPM (Node Package Manager)
+- VSCE (Visual Studio Code Extension [Marketplace])
 
 ### Detections
 
-- [x] Detect GIT repository
-- [x] Detect NPM module
-- [x] Detect unstaged changes
-- [x] Detect VS Code extension
+- Detect GIT repository
+- Detect NPM module
+- Detect unstaged changes
+- Detect VS Code extension
 
 ## :package: Install
 
@@ -37,6 +37,6 @@ npm i -g lisher
 lisher
 ```
 
-### Preview
+## :clapper: Preview
 
 ![Preview](https://i.imgur.com/VBAh6Jb.gif)
