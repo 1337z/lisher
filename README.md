@@ -49,7 +49,7 @@ lisher
 
 ### NPM & GIT
 
-![Preview NPM](https://i.imgur.com/DXn0R11.gif)
+![Preview NPM](https://i.imgur.com/fKOa0mv.gif)
 
 ### VSCE & GIT
 
