@@ -6,6 +6,7 @@
   "bin": {
     "lisher": "./bin/cli.js"
   },
+  "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "./node_modules/.bin/prettier --write **/*",
