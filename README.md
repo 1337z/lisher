@@ -39,6 +39,9 @@ lisher
 
 ## :clapper: Preview
 
+<details>
+<summary>GIT</summary>
+
 ### GIT
 
 ![Preview GIT](https://i.imgur.com/CLg5uFW.gif)
@@ -47,10 +50,22 @@ lisher
 
 ![Preview GIT dirty workdir](https://i.imgur.com/DXn0R11.gif)
 
+</details>
+
+<details>
+<summary>NPM</summary>
+
 ### NPM & GIT
 
 ![Preview NPM](https://i.imgur.com/fKOa0mv.gif)
 
+</details>
+
+<details>
+<summary>VSCE</summary>
+
 ### VSCE & GIT
 
 ![Preview VSCE](https://i.imgur.com/ljn4bti.gif)
+
+</details>
