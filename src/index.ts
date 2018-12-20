@@ -2,12 +2,14 @@ import * as inquirer from "inquirer"
 import * as fs from "fs"
 import { execSync } from "child_process"
 import chalk from "chalk"
-const isGit = require("is-git-repository")
+const isGit = require("is-git-repository")()
+const isNPM = fs.existsSync("package.json")
 
 const log = console.log
 const info = chalk.magenta
 
 let args: string[]
+let providers: Array<object> = []
 
 export const run = (_args: string[]) => {
   args = _args
@@ -15,33 +17,29 @@ export const run = (_args: string[]) => {
 }
 
 function flow() {
+  if (isGit) registerProvider("GIT")
+  if (isNPM) registerProvider("NPM")
+
   let questions: any = [
     // Only ask this question when a git repository is detected
     {
       type: "checkbox",
       name: "provider",
-      message: "Please select where we should publish your module.",
-      choices: [{ name: "NPM" }, { name: "GIT" }],
+      message: "Please select where we should publish your module.\n",
+      choices: providers,
       when: () => {
-        return isGit()
+        return isGit
       }
     },
-    // Only ask this question if no git repository is detected
-    {
-      type: "checkbox",
-      name: "provider",
-      message: "Please select where we should publish your module.",
-      choices: [{ name: "NPM" }],
-      when: () => {
-        return !isGit()
-      }
-    },
-    // Ask for the version increase
+    // Ask for the version increase if a package.json is detected
     {
       type: "list",
       name: "version",
       message: "Is your publication a patch, a minor or a major change?",
-      choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"]
+      choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"],
+      when: () => {
+        return isNPM
+      }
     }
   ]
 
@@ -56,6 +54,7 @@ function flow() {
       log(info("Publishing to NPM.."))
       exec("npm publish")
     }
+
     if (answers.provider.indexOf("GIT") > -1) {
       log(info("Pushing to git.."))
       exec("git push --follow-tags")
@@ -65,4 +64,8 @@ function flow() {
 
 const exec = (command: string) => {
   execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
+}
+
+const registerProvider = (provider: string) => {
+  providers.push({ name: provider })
 }
