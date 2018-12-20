@@ -56,7 +56,7 @@ function flow() {
     }
 
     if (answers.provider.indexOf("GIT") > -1) {
-      log(info("Pushing to git.."))
+      log(info("Pushing to git repository.."))
       exec("git push --follow-tags")
     }
   })
