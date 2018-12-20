@@ -13,3 +13,5 @@ npm i -g lisher
 ```command
 lisher
 ```
+
+![Preview](https://i.imgur.com/VBAh6Jb.gif)
