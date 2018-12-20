@@ -1,0 +1,32 @@
+{
+  "name": "lisher",
+  "version": "0.0.1",
+  "description": "(Pub)lisher for NPM, GIT, and more..",
+  "main": "src/index.js",
+  "bin": {
+    "lisher": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "./node_modules/.bin/prettier --write **/*",
+    "formatjs": "./node_modules/.bin/prettier --write **/*.js",
+    "formatts": "./node_modules/.bin/prettier --write **/*.ts",
+    "compile": "tsc && npm run format"
+  },
+  "keywords": [
+    "publisher",
+    "lisher",
+    "module",
+    "npm",
+    "package"
+  ],
+  "author": "MarvinJWendt",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "prettier": "^1.15.3",
+    "tslint": "^5.12.0",
+    "tslint-plugin-prettier": "^2.0.1"
+  }
+}
