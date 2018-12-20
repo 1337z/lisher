@@ -12,7 +12,7 @@ const isNPM = (): boolean => {
 }
 
 const log = console.log
-const info = chalk.magenta
+const info = chalk.magentaBright
 
 let args: string[]
 let providers: Array<object> = []
