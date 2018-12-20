@@ -1,4 +1,4 @@
-# (Pub)lisher | 1.0.0 [BETA]
+# (Pub)lisher
 
 > Simply publish your modules to NPM and GIT at the same time!
 
