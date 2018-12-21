@@ -1,11 +1,7 @@
 import * as inquirer from "inquirer"
-import chalk from "chalk"
-import { execSync } from "child_process"
+import { info, log } from "./log/log"
 import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
-
-// Setup console output
-const log = console.log
-const info = chalk.magentaBright
+import { exec, execRaw } from "./utils/exec"
 
 // Global variables
 let args: string[]
@@ -61,20 +57,20 @@ export const run = (_args: string[]) => {
 
       // Check for unstaged changes
       if (isGIT()) {
-        const unstagedFiles = execSync("git diff --name-only").toString()
+        const unstagedFiles = execRaw("git diff --name-only").toString()
         if (unstagedFiles) {
-          log(info("Git working directory not clean!\nPlease commit your changes before publishing."))
+          info("Git working directory not clean!\nPlease commit your changes before publishing.")
           log(unstagedFiles)
-          log(info("Aborting."))
+          info("Aborting.")
           throw Error("Git working directory not clean.")
         }
       }
 
       if (runGrunt) {
-        log(info("Running Grunt.."))
+        info("Running Grunt..")
         exec("grunt")
         if (isGIT()) {
-          log(info("The changes made by Grunt need to be commited before publishing!"))
+          info("The changes made by Grunt need to be commited before publishing!")
           await inquirer
             .prompt([
               {
@@ -90,7 +86,7 @@ export const run = (_args: string[]) => {
         }
       }
 
-      if (answers.version != "Don't change the version") log(info(`Increasing the version (${answers.version})`))
+      if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
       if (answers.version == "PATCH") exec("npm version patch")
@@ -99,19 +95,19 @@ export const run = (_args: string[]) => {
 
       // Publish to NPM
       if (publishToNPM) {
-        log(info("Publishing to NPM.."))
+        info("Publishing to NPM..")
         exec("npm publish")
       }
 
       // Publish to Visual Studio Code Marketplace
       if (publishToVSCE) {
-        log(info("Publishing to the Visual Studio Code Marketplace.."))
+        info("Publishing to the Visual Studio Code Marketplace..")
         exec("vsce publish")
       }
 
       // Publish to git repository (Last step!)
       if (publishToGIT) {
-        log(info("Pushing to git repository.."))
+        info("Pushing to git repository..")
         exec("git push --follow-tags")
       }
     })
@@ -119,14 +115,6 @@ export const run = (_args: string[]) => {
       // Throw an error if something goes wrong
       if (err) throw err
     })
-}
-
-/**
- * Execute a command syncronously with feedback
- * @param command Command to execute
- */
-const exec = (command: string) => {
-  execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
 }
 
 /**
