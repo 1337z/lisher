@@ -16,11 +16,12 @@
     "compile": "tsc && npm run format"
   },
   "keywords": [
-    "publisher",
     "lisher",
-    "module",
+    "publisher",
+    "publish",
+    "git",
     "npm",
-    "package"
+    "vsce"
   ],
   "author": "MarvinJWendt",
   "license": "MIT",
