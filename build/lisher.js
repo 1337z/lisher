@@ -24,9 +24,6 @@ var args
 var providers = []
 exports.run = function(_args) {
   args = _args
-  flow()
-}
-var flow = function() {
   if (detector_1.isGit()) registerProvider("GIT")
   if (detector_1.isNPM()) registerProvider("NPM")
   if (detector_1.isVSCE()) registerProvider("VSCE")

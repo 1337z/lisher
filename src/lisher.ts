@@ -3,18 +3,18 @@ import chalk from "chalk"
 import { execSync } from "child_process"
 import { isGit, isNPM, isVSCE } from "./detector/detector"
 
+// Setup console output
 const log = console.log
 const info = chalk.magentaBright
 
+// Global variables
 let args: string[]
 let providers: Array<object> = []
 
+// Inital function
 export const run = (_args: string[]) => {
   args = _args
-  flow()
-}
 
-const flow = () => {
   // Detect and register providers
   if (isGit()) registerProvider("GIT")
   if (isNPM()) registerProvider("NPM")
@@ -84,10 +84,18 @@ const flow = () => {
     .catch(err => {})
 }
 
+/**
+ * Execute a command syncronously with feedback
+ * @param command Command to execute
+ */
 const exec = (command: string) => {
   execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
 }
 
+/**
+ * Register a code provider where the code should be uploaded
+ * @param provider Provider to upload the code to
+ */
 const registerProvider = (provider: string) => {
   providers.push({ name: provider })
 }
