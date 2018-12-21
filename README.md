@@ -9,7 +9,7 @@
 > Unchecked features are in development
 
 Publish your module to the every provider you like!  
-In seconds.  
+In seconds.
 
 Lisher also detects task managers as grunt and will ask you to run it before publishing!
 
