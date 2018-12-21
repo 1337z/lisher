@@ -1,20 +1,7 @@
 import * as inquirer from "inquirer"
-import * as fs from "fs"
-import { execSync } from "child_process"
 import chalk from "chalk"
-
-const isGit = (): boolean => {
-  return fs.existsSync(".git")
-}
-
-const isNPM = (): boolean => {
-  return fs.existsSync("package.json")
-}
-
-const isVSCE = (): boolean => {
-  if (fs.existsSync("package.json") && fs.existsSync("node_modules/vscode")) return true
-  else return false
-}
+import { execSync } from "child_process"
+import { isGit, isNPM, isVSCE } from "./detector/detector"
 
 const log = console.log
 const info = chalk.magentaBright

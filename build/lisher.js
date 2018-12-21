@@ -14,63 +14,50 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod }
   }
 Object.defineProperty(exports, "__esModule", { value: true })
-const inquirer = __importStar(require("inquirer"))
-const fs = __importStar(require("fs"))
-const child_process_1 = require("child_process")
-const chalk_1 = __importDefault(require("chalk"))
-const isGit = () => {
-  return fs.existsSync(".git")
-}
-const isNPM = () => {
-  return fs.existsSync("package.json")
-}
-const isVSCE = () => {
-  if (fs.existsSync("package.json") && fs.existsSync("node_modules/vscode")) return true
-  else return false
-}
-const log = console.log
-const info = chalk_1.default.magentaBright
-let args
-let providers = []
-exports.run = _args => {
+var inquirer = __importStar(require("inquirer"))
+var chalk_1 = __importDefault(require("chalk"))
+var child_process_1 = require("child_process")
+var detector_1 = require("./detector/detector")
+var log = console.log
+var info = chalk_1.default.magentaBright
+var args
+var providers = []
+exports.run = function(_args) {
   args = _args
   flow()
 }
-const flow = () => {
-  // Detect and register providers
-  if (isGit()) registerProvider("GIT")
-  if (isNPM()) registerProvider("NPM")
-  if (isVSCE()) registerProvider("VSCE")
-  let questions = [
-    // Only ask this question when a git repository is detected
+var flow = function() {
+  if (detector_1.isGit()) registerProvider("GIT")
+  if (detector_1.isNPM()) registerProvider("NPM")
+  if (detector_1.isVSCE()) registerProvider("VSCE")
+  var questions = [
     {
       type: "checkbox",
       name: "provider",
       message: "Please select where we should publish your module.\n",
       choices: providers,
-      when: () => {
-        return isGit
+      when: function() {
+        return detector_1.isGit
       }
     },
-    // Ask for the version increase if a package.json is detected
     {
       type: "list",
       name: "version",
       message: "Is your publication a patch, a minor or a major change?",
       choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"],
-      when: () => {
-        return isNPM
+      when: function() {
+        return detector_1.isNPM
       }
     }
   ]
   inquirer
     .prompt(questions)
-    .then(answers => {
-      const publishToGIT = answers.provider.indexOf("GIT") > -1
-      const publishToNPM = answers.provider.indexOf("NPM") > -1
-      const publishToVSCE = answers.provider.indexOf("VSCE") > -1
-      if (isGit()) {
-        const unstagedFiles = child_process_1.execSync("git diff --name-only").toString()
+    .then(function(answers) {
+      var publishToGIT = answers.provider.indexOf("GIT") > -1
+      var publishToNPM = answers.provider.indexOf("NPM") > -1
+      var publishToVSCE = answers.provider.indexOf("VSCE") > -1
+      if (detector_1.isGit()) {
+        var unstagedFiles = child_process_1.execSync("git diff --name-only").toString()
         if (unstagedFiles) {
           log(info("Git working directory not clean!\nPlease commit your changes before publishing."))
           log(unstagedFiles)
@@ -78,7 +65,7 @@ const flow = () => {
           throw Error("Git working directory not clean.")
         }
       }
-      if (answers.version != "Don't change the version") log(info(`Increasing the version (${answers.version})`))
+      if (answers.version != "Don't change the version") log(info("Increasing the version (" + answers.version + ")"))
       if (answers.version == "PATCH") exec("npm version patch")
       if (answers.version == "MINOR") exec("npm version minor")
       if (answers.version == "MAJOR") exec("npm version major")
@@ -95,11 +82,11 @@ const flow = () => {
         exec("git push --follow-tags")
       }
     })
-    .catch(err => {})
+    .catch(function(err) {})
 }
-const exec = command => {
+var exec = function(command) {
   child_process_1.execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
 }
-const registerProvider = provider => {
+var registerProvider = function(provider) {
   providers.push({ name: provider })
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const index = require("../src/index")
+const lish = require("../build/lish")
 
 let args = process.argv.splice(process.execArgv.length + 2)
 
-index.run(args)
+lish.run(args)

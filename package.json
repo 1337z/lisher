@@ -4,14 +4,15 @@
   "description": "(Pub)lisher for NPM, GIT, and more..",
   "main": "src/index.js",
   "bin": {
-    "lisher": "./bin/cli.js"
+    "lisher": "./bin/cli-lisher.js",
+    "lish": "./bin/cli-lish.js"
   },
   "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "./node_modules/.bin/prettier --write **/*",
-    "formatjs": "./node_modules/.bin/prettier --write **/*.js",
-    "formatts": "./node_modules/.bin/prettier --write **/*.ts",
+    "format": "prettier --write **/*",
+    "formatjs": "prettier --write **/*.js",
+    "formatts": "prettier --write **/*.ts",
     "compile": "tsc && npm run format"
   },
   "keywords": [
@@ -36,5 +37,13 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "inquirer": "^6.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1337z/lisher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1337z/lisher/issues"
+  },
+  "homepage": "https://github.com/1337z/lisher#readme"
 }

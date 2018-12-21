@@ -1,9 +1,13 @@
 # (Pub)lisher
 
 [![Issues](https://img.shields.io/github/issues/1337z/lisher.svg)]()
+
 [![Forks](https://img.shields.io/github/forks/1337z/lisher.svg)](https://github.com/1337z/lisher/fork)
+
 [![Stars](https://img.shields.io/github/stars/1337z/lisher.svg)](https://github.com/1337z/lisher/stargazers)
+
 [![License](https://img.shields.io/github/license/1337z/lisher.svg)](LICENSE)
+
 <!-- ![Tweet about lisher](https://img.shields.io/twitter/url/https/github.com/1337z/lisher.svg?style=social) -->
 
 > Simply publish your modules to NPM and GIT at the same time!
