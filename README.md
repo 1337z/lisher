@@ -26,13 +26,16 @@
 ## :package: Install
 
 ```command
-npm i -g lisher
+> npm i -g lisher
 ```
 
 ## :clipboard: Usage
 
+> Simply run this command in your project directory.
+> It will start the publish wizard :sparkles:
+
 ```command
-lisher
+> lisher
 ```
 
 ## :clapper: Preview
