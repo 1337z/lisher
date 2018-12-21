@@ -2,6 +2,10 @@
 
 const lisher = require("../build/lisher")
 
-let args = process.argv.splice(process.execArgv.length + 2)
+const argv = require("yargs").option("debug", {
+  describe: "Enable debugging",
+  alias: "d",
+  default: false
+}).argv
 
-lisher.run(args)
+lisher.run(argv)

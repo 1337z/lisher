@@ -41,10 +41,12 @@ const inquirer = __importStar(require("inquirer"))
 const log_1 = require("./log/log")
 const detector_1 = require("./detector/detector")
 const exec_1 = require("./utils/exec")
-let args
+let argv
+let debug = false
 let providers = []
-exports.run = _args => {
-  args = _args
+exports.run = _argv => {
+  argv = _argv
+  debug = argv.debug
   if (detector_1.isGIT()) registerProvider("GIT")
   if (detector_1.isNPM()) registerProvider("NPM")
   if (detector_1.isVSCE()) registerProvider("VSCE")

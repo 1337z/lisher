@@ -4,12 +4,14 @@ import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
 import { exec, execRaw } from "./utils/exec"
 
 // Global variables
-let args: string[]
+let argv: any
+let debug = false
 let providers: Array<object> = []
 
 // Inital function
-export const run = (_args: string[]) => {
-  args = _args
+export const run = (_argv: string[]) => {
+  argv = _argv
+  debug = argv.debug
 
   // Detect and register providers
   if (isGIT()) registerProvider("GIT")
