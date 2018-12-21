@@ -23,6 +23,7 @@ Lisher also detects task managers as grunt and will ask you to run it before pub
 
 - Detect GIT repository
   - Detect unstaged changes
+  - Commit unstaged changes (we will ask you first)
 - Detect NPM module
 - Detect VS Code extension
 - Detect Gruntfile
@@ -52,7 +53,7 @@ Lisher also detects task managers as grunt and will ask you to run it before pub
 
 #### GIT with dirty working directory
 
-![Preview GIT dirty workdir](https://i.imgur.com/DXn0R11.gif)
+![Preview GIT dirty workdir](https://i.imgur.com/MXi6KJE.gif)
 
 </details>
 
