@@ -19,8 +19,8 @@
 ### Detections
 
 - Detect GIT repository
+  - Detect unstaged changes
 - Detect NPM module
-- Detect unstaged changes
 - Detect VS Code extension
 
 ## :package: Install
