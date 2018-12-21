@@ -44,12 +44,16 @@ export const run = (_args: string[]) => {
   ]
 
   inquirer
-    .prompt(questions)
+    .prompt(questions) // Prompt the questions
     .then((answers: any) => {
-      const publishToGIT = answers.provider.indexOf("GIT") > -1
-      const publishToNPM = answers.provider.indexOf("NPM") > -1
-      const publishToVSCE = answers.provider.indexOf("VSCE") > -1
+      // Result -> Function
 
+      // Set publish providers
+      const publishToGIT: boolean = answers.provider.indexOf("GIT") > -1
+      const publishToNPM: boolean = answers.provider.indexOf("NPM") > -1
+      const publishToVSCE: boolean = answers.provider.indexOf("VSCE") > -1
+
+      // Check for unstaged changes
       if (isGit()) {
         const unstagedFiles = execSync("git diff --name-only").toString()
         if (unstagedFiles) {
@@ -62,26 +66,33 @@ export const run = (_args: string[]) => {
 
       if (answers.version != "Don't change the version") log(info(`Increasing the version (${answers.version})`))
 
+      // Version the 'package.json'
       if (answers.version == "PATCH") exec("npm version patch")
       if (answers.version == "MINOR") exec("npm version minor")
       if (answers.version == "MAJOR") exec("npm version major")
 
+      // Publish to NPM
       if (publishToNPM) {
         log(info("Publishing to NPM.."))
         exec("npm publish")
       }
 
+      // Publish to Visual Studio Code Marketplace
       if (publishToVSCE) {
         log(info("Publishing to the Visual Studio Code Marketplace.."))
         exec("vsce publish")
       }
 
+      // Publish to git repository (Last step!)
       if (publishToGIT) {
         log(info("Pushing to git repository.."))
         exec("git push --follow-tags")
       }
     })
-    .catch(err => {})
+    .catch(err => {
+      // Throw an error if something goes wrong
+      if (err) throw err
+    })
 }
 
 /**

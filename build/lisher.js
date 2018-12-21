@@ -79,7 +79,9 @@ exports.run = function(_args) {
         exec("git push --follow-tags")
       }
     })
-    .catch(function(err) {})
+    .catch(function(err) {
+      if (err) throw err
+    })
 }
 var exec = function(command) {
   child_process_1.execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
