@@ -8,6 +8,11 @@
 
 > Unchecked features are in development
 
+Publish your module to the every provider you like!  
+In seconds.  
+
+Lisher also detects task managers as grunt and will ask you to run it before publishing!
+
 ### Publish providers
 
 - GIT
@@ -20,6 +25,7 @@
   - Detect unstaged changes
 - Detect NPM module
 - Detect VS Code extension
+- Detect Gruntfile
 
 ## :package: Install
 
@@ -47,6 +53,15 @@
 #### GIT with dirty working directory
 
 ![Preview GIT dirty workdir](https://i.imgur.com/DXn0R11.gif)
+
+</details>
+
+<details>
+<summary>Grunt</summary>
+
+### Grunt task manager
+
+![Preview Grunt](https://i.imgur.com/8SASVLE.gif)
 
 </details>
 

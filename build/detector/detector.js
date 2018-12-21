@@ -9,14 +9,18 @@ var __importStar =
     return result
   }
 Object.defineProperty(exports, "__esModule", { value: true })
-var fs = __importStar(require("fs"))
-exports.isGit = function() {
+const fs = __importStar(require("fs"))
+exports.isGIT = () => {
   return fs.existsSync(".git")
 }
-exports.isNPM = function() {
+exports.isNPM = () => {
   return fs.existsSync("package.json")
 }
-exports.isVSCE = function() {
+exports.isVSCE = () => {
   if (fs.existsSync("package.json") && fs.existsSync("node_modules/vscode")) return true
+  else return false
+}
+exports.isGRUNT = () => {
+  if (fs.existsSync("Gruntfile.js") || fs.existsSync("Gruntfile.coffee")) return true
   else return false
 }

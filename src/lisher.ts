@@ -1,7 +1,7 @@
 import * as inquirer from "inquirer"
 import chalk from "chalk"
 import { execSync } from "child_process"
-import { isGit, isNPM, isVSCE } from "./detector/detector"
+import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
 
 // Setup console output
 const log = console.log
@@ -16,20 +16,24 @@ export const run = (_args: string[]) => {
   args = _args
 
   // Detect and register providers
-  if (isGit()) registerProvider("GIT")
+  if (isGIT()) registerProvider("GIT")
   if (isNPM()) registerProvider("NPM")
   if (isVSCE()) registerProvider("VSCE")
 
   let questions: any = [
-    // Only ask this question when a git repository is detected
+    {
+      type: "confirm",
+      name: "grunt",
+      message: "We found a Gruntfile. Should we run Grunt?",
+      when: () => {
+        return isGRUNT()
+      }
+    },
     {
       type: "checkbox",
       name: "provider",
       message: "Please select where we should publish your module.\n",
-      choices: providers,
-      when: () => {
-        return isGit
-      }
+      choices: providers
     },
     // Ask for the version increase if a package.json is detected
     {
@@ -38,14 +42,14 @@ export const run = (_args: string[]) => {
       message: "Is your publication a patch, a minor or a major change?",
       choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"],
       when: () => {
-        return isNPM
+        return isNPM()
       }
     }
   ]
 
   inquirer
     .prompt(questions) // Prompt the questions
-    .then((answers: any) => {
+    .then(async (answers: any) => {
       // Result -> Function
 
       // Set publish providers
@@ -53,14 +57,36 @@ export const run = (_args: string[]) => {
       const publishToNPM: boolean = answers.provider.indexOf("NPM") > -1
       const publishToVSCE: boolean = answers.provider.indexOf("VSCE") > -1
 
+      const runGrunt: boolean = answers.grunt
+
       // Check for unstaged changes
-      if (isGit()) {
+      if (isGIT()) {
         const unstagedFiles = execSync("git diff --name-only").toString()
         if (unstagedFiles) {
           log(info("Git working directory not clean!\nPlease commit your changes before publishing."))
           log(unstagedFiles)
           log(info("Aborting."))
           throw Error("Git working directory not clean.")
+        }
+      }
+
+      if (runGrunt) {
+        log(info("Running Grunt.."))
+        exec("grunt")
+        if (isGIT()) {
+          log(info("The changes made by Grunt need to be commited before publishing!"))
+          await inquirer
+            .prompt([
+              {
+                type: "input",
+                name: "commit_message",
+                message: "Please enter the commit message"
+              }
+            ])
+            .then((answers: any) => {
+              exec("git add *")
+              exec(`git commit -m "${answers.commit_message}"`)
+            })
         }
       }
 
