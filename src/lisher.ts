@@ -47,10 +47,16 @@ export const run = async (_argv: string[]) => {
                 exec("git add *")
                 exec(`git commit -m "${answers.commit_message}"`)
               })
+              .catch(err => {
+                if (err) throw err
+              })
           } else {
             info("Please commit your changes manually and run lisher again.")
-            throw Error("Git working directory not clean.")
+            throw Error("Git working directory not clean!")
           }
+        })
+        .catch(err => {
+          if (err) throw err
         })
     }
   }
@@ -126,6 +132,9 @@ export const run = async (_argv: string[]) => {
               exec("git add *")
               exec(`git commit -m "${answers.commit_message}"`)
             })
+            .catch(err => {
+              if (err) throw err
+            })
         }
       }
       debugTimeEnd("Run grunt")
@@ -168,6 +177,7 @@ export const run = async (_argv: string[]) => {
       if (err) throw err
     })
 }
+
 debugTimeEnd("Questions")
 
 /**
