@@ -6,12 +6,10 @@
 
 ## :star: Features
 
-> Unchecked features are in development
-
-Publish your module to the every provider you like!  
-In seconds.
-
-Lisher also detects task managers as grunt and will ask you to run it before publishing!
+Pub`lish` your module to NPM, GIT and VSCE with a single command.  
+You can choose where you want your module to be published.  
+Lisher will detect task managers as grunt and will ask you to run them before publishing!  
+You forgot to commit your changes? Don't worry, lisher will notify you and if you want you can also set the commit message in lisher itself for an even faster publication.
 
 ### Publish providers
 
