@@ -1,6 +1,9 @@
 # Do not upload code style settings
 .prettierrc
+.prettierignore
 .eslintrc
+tsconfig.json
+tslint.json
 
 # Do not upload the Code of Conduct
 CODE_OF_CONDUCT.md
