@@ -20,26 +20,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer = __importStar(require("inquirer"));
 const fs = __importStar(require("fs"));
-const log_1 = require("./log/log");
-const detector_1 = require("./detector/detector");
+const targetModule = __importStar(require("./targetModule"));
+const log_1 = require("./log");
 const exec_1 = require("./utils/exec");
 const debug_1 = require("./utils/debug");
 const chalk_1 = __importDefault(require("chalk"));
 const semver = require("semver");
 let argv;
-let debug = false;
-let providers = [];
-let moduleInfo;
-if (detector_1.isNPM())
-    moduleInfo = JSON.parse(fs.readFileSync("package.json").toString());
-let oldVersion = detector_1.isNPM();
-if (detector_1.isNPM())
-    oldVersion = moduleInfo.version;
+let debugStatus = false;
+let avaiblePublishProviders = [];
+let targetModuleInfo;
+if (targetModule.isNPM())
+    targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
+let oldVersion;
+if (targetModule.isNPM())
+    oldVersion = targetModuleInfo.version;
 exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     argv = _argv;
-    debug = argv.debug;
-    debug_1.setDebuggerEnabled(debug);
-    if (detector_1.isGIT()) {
+    debugStatus = argv.debug;
+    debug_1.setDebuggerEnabled(debugStatus);
+    if (targetModule.isGIT()) {
         const unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
         if (unstagedFiles) {
             log_1.info("Git working directory not clean!\nPlease commit your changes before publishing.");
@@ -84,13 +84,13 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             });
         }
     }
-    if (detector_1.isGIT())
+    if (targetModule.isGIT())
         registerProvider("GIT");
-    if (detector_1.isNPM())
+    if (targetModule.isNPM())
         registerProvider("NPM");
-    if (detector_1.isVSCE())
+    if (targetModule.isVSCE())
         registerProvider("VSCE");
-    if (debug)
+    if (debugStatus)
         registerProvider("Debug");
     let questions = [
         {
@@ -98,14 +98,14 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             name: "grunt",
             message: "We found a Gruntfile. Should we run Grunt?",
             when: () => {
-                return detector_1.isGRUNT();
+                return targetModule.isGRUNT();
             }
         },
         {
             type: "checkbox",
             name: "provider",
             message: "Please select where we should publish your module.\n",
-            choices: providers
+            choices: avaiblePublishProviders
         },
         {
             type: "list",
@@ -123,7 +123,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
                 "Don't change the version"
             ],
             when: () => {
-                return detector_1.isNPM();
+                return targetModule.isNPM();
             }
         }
     ];
@@ -133,12 +133,12 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         const publishToGIT = answers.provider.indexOf("GIT") > -1;
         const publishToNPM = answers.provider.indexOf("NPM") > -1;
         const publishToVSCE = answers.provider.indexOf("VSCE") > -1;
-        const publishToDEBUG = debug;
+        const publishToDEBUG = debugStatus;
         const runGrunt = answers.grunt;
         if (runGrunt) {
             log_1.info("Running Grunt..");
             exec_1.exec("grunt");
-            if (detector_1.isGIT()) {
+            if (targetModule.isGIT()) {
                 log_1.info("The changes made by Grunt need to be commited before publishing!");
                 yield inquirer
                     .prompt([
@@ -199,7 +199,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         let resultMessage = "";
         resultMessage += `Published module to: ${published.toString()}`;
-        if (detector_1.isNPM())
+        if (targetModule.isNPM())
             resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
         log_1.boxMessageResult(resultMessage, chalk_1.default.greenBright, true);
     }))
@@ -209,5 +209,5 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     });
 });
 const registerProvider = (provider) => {
-    providers.push({ name: provider });
+    avaiblePublishProviders.push({ name: provider });
 };

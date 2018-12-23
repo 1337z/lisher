@@ -1,34 +1,36 @@
+// Imports
 import * as inquirer from "inquirer"
 import * as fs from "fs"
-import { info, log, boxMessage, boxMessageSuccess, boxMessageResult } from './log/log';
-import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
+import * as targetModule from "./targetModule"
+import { info, log, boxMessage, boxMessageSuccess, boxMessageResult } from "./log"
 import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
 import chalk from "chalk"
 
+// Requires (modules with no, or buggy, TypeScript support)
 const semver = require("semver")
 
 // Global variables
-let argv: any
-let debug = false
-let providers: Array<object> = []
-let moduleInfo: any
+let argv: any // Yargs
+let debugStatus = false //Debug status
+let avaiblePublishProviders: Array<object> = []
+let targetModuleInfo: any
 
-if (isNPM()) moduleInfo = JSON.parse(fs.readFileSync("package.json").toString())
+if (targetModule.isNPM()) targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
 
-let oldVersion = isNPM()
+let oldVersion: string
 
-if (isNPM()) oldVersion = moduleInfo.version
+if (targetModule.isNPM()) oldVersion = targetModuleInfo.version
 
 // Inital function
 export const run = async (_argv: string[]) => {
   argv = _argv
-  debug = argv.debug
+  debugStatus = argv.debug
 
-  setDebuggerEnabled(debug)
+  setDebuggerEnabled(debugStatus)
 
   // Check for unstaged changes
-  if (isGIT()) {
+  if (targetModule.isGIT()) {
     const unstagedFiles = execRaw("git diff --name-only").toString()
     if (unstagedFiles) {
       info("Git working directory not clean!\nPlease commit your changes before publishing.")
@@ -72,11 +74,11 @@ export const run = async (_argv: string[]) => {
     }
   }
 
-  if (isGIT()) registerProvider("GIT")
-  if (isNPM()) registerProvider("NPM")
-  if (isVSCE()) registerProvider("VSCE")
+  if (targetModule.isGIT()) registerProvider("GIT")
+  if (targetModule.isNPM()) registerProvider("NPM")
+  if (targetModule.isVSCE()) registerProvider("VSCE")
 
-  if (debug) registerProvider("Debug")
+  if (debugStatus) registerProvider("Debug")
 
   let questions: any = [
     {
@@ -84,14 +86,14 @@ export const run = async (_argv: string[]) => {
       name: "grunt",
       message: "We found a Gruntfile. Should we run Grunt?",
       when: () => {
-        return isGRUNT()
+        return targetModule.isGRUNT()
       }
     },
     {
       type: "checkbox",
       name: "provider",
       message: "Please select where we should publish your module.\n",
-      choices: providers
+      choices: avaiblePublishProviders
     },
     // Ask for the version increase if a package.json is detected
     {
@@ -110,7 +112,7 @@ export const run = async (_argv: string[]) => {
         "Don't change the version"
       ],
       when: () => {
-        return isNPM()
+        return targetModule.isNPM()
       }
     }
   ]
@@ -122,14 +124,14 @@ export const run = async (_argv: string[]) => {
       const publishToGIT: boolean = answers.provider.indexOf("GIT") > -1
       const publishToNPM: boolean = answers.provider.indexOf("NPM") > -1
       const publishToVSCE: boolean = answers.provider.indexOf("VSCE") > -1
-      const publishToDEBUG: boolean = debug
+      const publishToDEBUG: boolean = debugStatus
 
       const runGrunt: boolean = answers.grunt
 
       if (runGrunt) {
         info("Running Grunt..")
         exec("grunt")
-        if (isGIT()) {
+        if (targetModule.isGIT()) {
           info("The changes made by Grunt need to be commited before publishing!")
           await inquirer
             .prompt([
@@ -194,7 +196,8 @@ export const run = async (_argv: string[]) => {
       let resultMessage = ""
 
       resultMessage += `Published module to: ${published.toString()}`
-      if (isNPM()) resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
+      if (targetModule.isNPM())
+        resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
 
       boxMessageResult(resultMessage, chalk.greenBright, true)
     })
@@ -209,5 +212,5 @@ export const run = async (_argv: string[]) => {
  * @param provider Provider to upload the code to
  */
 const registerProvider = (provider: string) => {
-  providers.push({ name: provider })
+  avaiblePublishProviders.push({ name: provider })
 }

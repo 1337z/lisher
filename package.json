@@ -2,14 +2,14 @@
   "name": "lisher",
   "version": "1.8.4",
   "description": "(Pub)lisher for NPM, GIT, and more..",
-  "main": "src/index.js",
+  "main": "./bin/cli-lisher.js",
   "bin": {
     "lisher": "./bin/cli-lisher.js"
   },
   "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write **/*",
+    "format": "prettier --write **/*.{js,ts,json,md}",
     "formatjs": "prettier --write **/*.js",
     "formatts": "prettier --write **/*.ts",
     "compile": "tsc && npm run format"
