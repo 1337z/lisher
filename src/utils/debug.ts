@@ -1,10 +1,11 @@
-import { debugInfo } from "../log/log"
+import { debugInfo, boxMessage } from "../log/log"
+import chalk from "chalk"
 
 let active = false
 
 export const setDebuggerEnabled = (enabled: boolean) => {
   active = enabled
-  if (enabled) debugInfo("Debug mode enabled!")
+  if (enabled) boxMessage("DEBUG MODE", chalk.yellow)
 }
 
 export const debugTime = (...args: any) => {

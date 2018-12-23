@@ -97,7 +97,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         {
             type: "list",
             name: "version",
-            message: "Is your publication a patch, a minor or a major change?",
+            message: "Is your publication a patch, a minor or a major change?\n",
             choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
             when: () => {
                 return detector_1.isNPM();
@@ -153,14 +153,17 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         if (publishToNPM) {
             log_1.info("Publishing to NPM..");
             exec_1.exec("npm publish");
+            log_1.boxMessageSuccess("Published to NPM!");
         }
         if (publishToVSCE) {
             log_1.info("Publishing to the Visual Studio Code Marketplace..");
             exec_1.exec("vsce publish");
+            log_1.boxMessageSuccess("Published to Visual Studio Code Marketplace!");
         }
         if (publishToGIT) {
             log_1.info("Pushing to git repository..");
             exec_1.exec("git push --follow-tags");
+            log_1.boxMessageSuccess("Published to GIT");
         }
     }))
         .catch(err => {

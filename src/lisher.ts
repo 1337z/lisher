@@ -1,5 +1,5 @@
 import * as inquirer from "inquirer"
-import { info, log } from "./log/log"
+import { info, log, boxMessage, boxMessageSuccess } from "./log/log"
 import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
 import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
@@ -85,7 +85,7 @@ export const run = async (_argv: string[]) => {
     {
       type: "list",
       name: "version",
-      message: "Is your publication a patch, a minor or a major change?",
+      message: "Is your publication a patch, a minor or a major change?\n",
       choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
       when: () => {
         return isNPM()
@@ -141,18 +141,21 @@ export const run = async (_argv: string[]) => {
       if (publishToNPM) {
         info("Publishing to NPM..")
         exec("npm publish")
+        boxMessageSuccess("Published to NPM!")
       }
 
       // Publish to Visual Studio Code Marketplace
       if (publishToVSCE) {
         info("Publishing to the Visual Studio Code Marketplace..")
         exec("vsce publish")
+        boxMessageSuccess("Published to Visual Studio Code Marketplace!")
       }
 
       // Publish to git repository (Last step!)
       if (publishToGIT) {
         info("Pushing to git repository..")
         exec("git push --follow-tags")
+        boxMessageSuccess("Published to GIT")
       }
     })
     .catch(err => {
