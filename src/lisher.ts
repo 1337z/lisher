@@ -92,7 +92,7 @@ export const run = async (_argv: string[]) => {
       type: "list",
       name: "version",
       message: "Is your publication a patch, a minor or a major change?",
-      choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"],
+      choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
       when: () => {
         return isNPM()
       }
@@ -146,6 +146,10 @@ export const run = async (_argv: string[]) => {
       if (answers.version == "PATCH") exec("npm version patch")
       if (answers.version == "MINOR") exec("npm version minor")
       if (answers.version == "MAJOR") exec("npm version major")
+      if (answers.version == "pre-patch") exec("npm version prepatch")
+      if (answers.version == "pre-minor") exec("npm version preminor")
+      if (answers.version == "pre-major") exec("npm version premajor")
+      if (answers.version == "pre-release") exec("npm version prerelease")
       debugTimeEnd("Set version")
 
       // Publish to NPM

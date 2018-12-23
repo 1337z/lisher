@@ -104,7 +104,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             type: "list",
             name: "version",
             message: "Is your publication a patch, a minor or a major change?",
-            choices: ["PATCH", "MINOR", "MAJOR", "Don't change the version"],
+            choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
             when: () => {
                 return detector_1.isNPM();
             }
@@ -155,6 +155,14 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             exec_1.exec("npm version minor");
         if (answers.version == "MAJOR")
             exec_1.exec("npm version major");
+        if (answers.version == "pre-patch")
+            exec_1.exec("npm version prepatch");
+        if (answers.version == "pre-minor")
+            exec_1.exec("npm version preminor");
+        if (answers.version == "pre-major")
+            exec_1.exec("npm version premajor");
+        if (answers.version == "pre-release")
+            exec_1.exec("npm version prerelease");
         debug_1.debugTimeEnd("Set version");
         debug_1.debugTime("Publish to NPM");
         if (publishToNPM) {
