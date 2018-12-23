@@ -14,15 +14,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const inquirer = __importStar(require("inquirer"));
+const fs = __importStar(require("fs"));
 const log_1 = require("./log/log");
 const detector_1 = require("./detector/detector");
 const exec_1 = require("./utils/exec");
 const debug_1 = require("./utils/debug");
+const chalk_1 = __importDefault(require("chalk"));
+const semver = require("semver");
 let argv;
 let debug = false;
 let providers = [];
+let moduleInfo;
+if (detector_1.isNPM())
+    moduleInfo = JSON.parse(fs.readFileSync("package.json").toString());
+let oldVersion = detector_1.isNPM();
+if (detector_1.isNPM())
+    oldVersion = moduleInfo.version;
 exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     argv = _argv;
     debug = argv.debug;
@@ -98,7 +110,17 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             type: "list",
             name: "version",
             message: "Is your publication a patch, a minor or a major change?\n",
-            choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
+            choices: [
+                `PATCH => ${semver.inc(oldVersion, "patch")}`,
+                `MINOR => ${semver.inc(oldVersion, "minor")}`,
+                `MAJOR =>  ${semver.inc(oldVersion, "major")}`,
+                new inquirer.Separator(),
+                `pre-patch => ${semver.inc(oldVersion, "prepatch")}`,
+                `pre-minor => ${semver.inc(oldVersion, "preminor")}`,
+                `pre-major => ${semver.inc(oldVersion, "premajor")}`,
+                `pre-release => ${semver.inc(oldVersion, "prerelease")}`,
+                "Don't change the version"
+            ],
             when: () => {
                 return detector_1.isNPM();
             }
@@ -110,6 +132,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         const publishToGIT = answers.provider.indexOf("GIT") > -1;
         const publishToNPM = answers.provider.indexOf("NPM") > -1;
         const publishToVSCE = answers.provider.indexOf("VSCE") > -1;
+        const publishToDEBUG = debug;
         const runGrunt = answers.grunt;
         if (runGrunt) {
             log_1.info("Running Grunt..");
@@ -136,35 +159,48 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         if (answers.version != "Don't change the version")
             log_1.info(`Increasing the version (${answers.version})`);
-        if (answers.version == "PATCH")
+        if (answers.version == `PATCH => ${semver.inc(oldVersion, "patch")}`)
             exec_1.exec("npm version patch");
-        if (answers.version == "MINOR")
+        if (answers.version == `MINOR => ${semver.inc(oldVersion, "minor")}`)
             exec_1.exec("npm version minor");
-        if (answers.version == "MAJOR")
+        if (answers.version == `MAJOR => ${semver.inc(oldVersion, "major")}`)
             exec_1.exec("npm version major");
-        if (answers.version == "pre-patch")
+        if (answers.version == `pre-patch => ${semver.inc(oldVersion, "prepatch")}`)
             exec_1.exec("npm version prepatch");
-        if (answers.version == "pre-minor")
+        if (answers.version == `pre-minor => ${semver.inc(oldVersion, "preminor")}`)
             exec_1.exec("npm version preminor");
-        if (answers.version == "pre-major")
+        if (answers.version == `pre-major => ${semver.inc(oldVersion, "premajor")}`)
             exec_1.exec("npm version premajor");
-        if (answers.version == "pre-release")
+        if (answers.version == `pre-release => ${semver.inc(oldVersion, "prerelease")}`)
             exec_1.exec("npm version prerelease");
+        let published = [];
         if (publishToNPM) {
             log_1.info("Publishing to NPM..");
             exec_1.exec("npm publish");
+            published.push("NPM");
             log_1.boxMessageSuccess("Published to NPM!");
         }
         if (publishToVSCE) {
             log_1.info("Publishing to the Visual Studio Code Marketplace..");
             exec_1.exec("vsce publish");
+            published.push("VSCE");
             log_1.boxMessageSuccess("Published to Visual Studio Code Marketplace!");
+        }
+        if (publishToDEBUG) {
+            published.push("DEBUG");
+            log_1.boxMessageSuccess("'Published' to debug!");
         }
         if (publishToGIT) {
             log_1.info("Pushing to git repository..");
             exec_1.exec("git push --follow-tags");
-            log_1.boxMessageSuccess("Published to GIT");
+            published.push("GIT");
+            log_1.boxMessageSuccess("Pushed to git repository!");
         }
+        let resultMessage = "";
+        resultMessage += `Published module to: ${published.toString()}`;
+        if (detector_1.isNPM())
+            resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
+        log_1.boxMessage(resultMessage, chalk_1.default.greenBright, true);
     }))
         .catch(err => {
         if (err)

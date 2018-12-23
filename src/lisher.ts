@@ -1,13 +1,24 @@
 import * as inquirer from "inquirer"
+import * as fs from "fs"
 import { info, log, boxMessage, boxMessageSuccess } from "./log/log"
 import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
 import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
+import chalk from "chalk"
+
+const semver = require("semver")
 
 // Global variables
 let argv: any
 let debug = false
 let providers: Array<object> = []
+let moduleInfo: any
+
+if (isNPM()) moduleInfo = JSON.parse(fs.readFileSync("package.json").toString())
+
+let oldVersion = isNPM()
+
+if (isNPM()) oldVersion = moduleInfo.version
 
 // Inital function
 export const run = async (_argv: string[]) => {
@@ -86,7 +97,17 @@ export const run = async (_argv: string[]) => {
       type: "list",
       name: "version",
       message: "Is your publication a patch, a minor or a major change?\n",
-      choices: ["PATCH", "MINOR", "MAJOR", new inquirer.Separator(), "pre-patch", "pre-minor", "pre-major", "pre-release", "Don't change the version"],
+      choices: [
+        `PATCH => ${semver.inc(oldVersion, "patch")}`,
+        `MINOR => ${semver.inc(oldVersion, "minor")}`,
+        `MAJOR =>  ${semver.inc(oldVersion, "major")}`,
+        new inquirer.Separator(),
+        `pre-patch => ${semver.inc(oldVersion, "prepatch")}`,
+        `pre-minor => ${semver.inc(oldVersion, "preminor")}`,
+        `pre-major => ${semver.inc(oldVersion, "premajor")}`,
+        `pre-release => ${semver.inc(oldVersion, "prerelease")}`,
+        "Don't change the version"
+      ],
       when: () => {
         return isNPM()
       }
@@ -100,6 +121,7 @@ export const run = async (_argv: string[]) => {
       const publishToGIT: boolean = answers.provider.indexOf("GIT") > -1
       const publishToNPM: boolean = answers.provider.indexOf("NPM") > -1
       const publishToVSCE: boolean = answers.provider.indexOf("VSCE") > -1
+      const publishToDEBUG: boolean = debug
 
       const runGrunt: boolean = answers.grunt
 
@@ -129,18 +151,21 @@ export const run = async (_argv: string[]) => {
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
-      if (answers.version == "PATCH") exec("npm version patch")
-      if (answers.version == "MINOR") exec("npm version minor")
-      if (answers.version == "MAJOR") exec("npm version major")
-      if (answers.version == "pre-patch") exec("npm version prepatch")
-      if (answers.version == "pre-minor") exec("npm version preminor")
-      if (answers.version == "pre-major") exec("npm version premajor")
-      if (answers.version == "pre-release") exec("npm version prerelease")
+      if (answers.version == `PATCH => ${semver.inc(oldVersion, "patch")}`) exec("npm version patch")
+      if (answers.version == `MINOR => ${semver.inc(oldVersion, "minor")}`) exec("npm version minor")
+      if (answers.version == `MAJOR => ${semver.inc(oldVersion, "major")}`) exec("npm version major")
+      if (answers.version == `pre-patch => ${semver.inc(oldVersion, "prepatch")}`) exec("npm version prepatch")
+      if (answers.version == `pre-minor => ${semver.inc(oldVersion, "preminor")}`) exec("npm version preminor")
+      if (answers.version == `pre-major => ${semver.inc(oldVersion, "premajor")}`) exec("npm version premajor")
+      if (answers.version == `pre-release => ${semver.inc(oldVersion, "prerelease")}`) exec("npm version prerelease")
+
+      let published = []
 
       // Publish to NPM
       if (publishToNPM) {
         info("Publishing to NPM..")
         exec("npm publish")
+        published.push("NPM")
         boxMessageSuccess("Published to NPM!")
       }
 
@@ -148,15 +173,29 @@ export const run = async (_argv: string[]) => {
       if (publishToVSCE) {
         info("Publishing to the Visual Studio Code Marketplace..")
         exec("vsce publish")
+        published.push("VSCE")
         boxMessageSuccess("Published to Visual Studio Code Marketplace!")
+      }
+
+      if (publishToDEBUG) {
+        published.push("DEBUG")
+        boxMessageSuccess("'Published' to debug!")
       }
 
       // Publish to git repository (Last step!)
       if (publishToGIT) {
         info("Pushing to git repository..")
         exec("git push --follow-tags")
-        boxMessageSuccess("Published to GIT")
+        published.push("GIT")
+        boxMessageSuccess("Pushed to git repository!")
       }
+
+      let resultMessage = ""
+
+      resultMessage += `Published module to: ${published.toString()}`
+      if (isNPM()) resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
+
+      boxMessage(resultMessage, chalk.greenBright, true)
     })
     .catch(err => {
       // Throw an error if something goes wrong
