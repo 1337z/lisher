@@ -39,6 +39,8 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     argv = _argv;
     debug = argv.debug;
     debug_1.setDebuggerEnabled(debug);
+    if (argv.version)
+        log_1.info("Lisher: " + require("../package.json").version);
     if (detector_1.isGIT()) {
         const unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
         if (unstagedFiles) {
