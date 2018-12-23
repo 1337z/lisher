@@ -18,9 +18,9 @@ let targetModuleInfo: any
 
 if (targetModule.isNPM()) targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
 
-let oldVersion: string
+let oldTargetModuleVersion: string
 
-if (targetModule.isNPM()) oldVersion = targetModuleInfo.version
+if (targetModule.isNPM()) oldTargetModuleVersion = targetModuleInfo.version
 
 // Inital function
 export const run = async (_argv: string[]) => {
@@ -101,14 +101,14 @@ export const run = async (_argv: string[]) => {
       name: "version",
       message: "Is your publication a patch, a minor or a major change?\n",
       choices: [
-        `PATCH => ${semver.inc(oldVersion, "patch")}`,
-        `MINOR => ${semver.inc(oldVersion, "minor")}`,
-        `MAJOR =>  ${semver.inc(oldVersion, "major")}`,
+        `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`,
+        `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`,
+        `MAJOR =>  ${semver.inc(oldTargetModuleVersion, "major")}`,
         new inquirer.Separator(),
-        `pre-patch => ${semver.inc(oldVersion, "prepatch")}`,
-        `pre-minor => ${semver.inc(oldVersion, "preminor")}`,
-        `pre-major => ${semver.inc(oldVersion, "premajor")}`,
-        `pre-release => ${semver.inc(oldVersion, "prerelease")}`,
+        `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`,
+        `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`,
+        `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`,
+        `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`,
         "Don't change the version"
       ],
       when: () => {
@@ -154,13 +154,13 @@ export const run = async (_argv: string[]) => {
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
-      if (answers.version == `PATCH => ${semver.inc(oldVersion, "patch")}`) exec("npm version patch")
-      if (answers.version == `MINOR => ${semver.inc(oldVersion, "minor")}`) exec("npm version minor")
-      if (answers.version == `MAJOR => ${semver.inc(oldVersion, "major")}`) exec("npm version major")
-      if (answers.version == `pre-patch => ${semver.inc(oldVersion, "prepatch")}`) exec("npm version prepatch")
-      if (answers.version == `pre-minor => ${semver.inc(oldVersion, "preminor")}`) exec("npm version preminor")
-      if (answers.version == `pre-major => ${semver.inc(oldVersion, "premajor")}`) exec("npm version premajor")
-      if (answers.version == `pre-release => ${semver.inc(oldVersion, "prerelease")}`) exec("npm version prerelease")
+      if (answers.version == `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`) exec("npm version patch")
+      if (answers.version == `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`) exec("npm version minor")
+      if (answers.version == `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`) exec("npm version major")
+      if (answers.version == `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`) exec("npm version prepatch")
+      if (answers.version == `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`) exec("npm version preminor")
+      if (answers.version == `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`) exec("npm version premajor")
+      if (answers.version == `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`) exec("npm version prerelease")
 
       let published = []
 
@@ -197,7 +197,7 @@ export const run = async (_argv: string[]) => {
 
       resultMessage += `Published module to: ${published.toString()}`
       if (targetModule.isNPM())
-        resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
+        resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
 
       boxMessageResult(resultMessage, chalk.greenBright, true)
     })

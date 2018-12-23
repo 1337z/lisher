@@ -32,9 +32,9 @@ let avaiblePublishProviders = [];
 let targetModuleInfo;
 if (targetModule.isNPM())
     targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
-let oldVersion;
+let oldTargetModuleVersion;
 if (targetModule.isNPM())
-    oldVersion = targetModuleInfo.version;
+    oldTargetModuleVersion = targetModuleInfo.version;
 exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     argv = _argv;
     debugStatus = argv.debug;
@@ -112,14 +112,14 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             name: "version",
             message: "Is your publication a patch, a minor or a major change?\n",
             choices: [
-                `PATCH => ${semver.inc(oldVersion, "patch")}`,
-                `MINOR => ${semver.inc(oldVersion, "minor")}`,
-                `MAJOR =>  ${semver.inc(oldVersion, "major")}`,
+                `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`,
+                `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`,
+                `MAJOR =>  ${semver.inc(oldTargetModuleVersion, "major")}`,
                 new inquirer.Separator(),
-                `pre-patch => ${semver.inc(oldVersion, "prepatch")}`,
-                `pre-minor => ${semver.inc(oldVersion, "preminor")}`,
-                `pre-major => ${semver.inc(oldVersion, "premajor")}`,
-                `pre-release => ${semver.inc(oldVersion, "prerelease")}`,
+                `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`,
+                `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`,
+                `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`,
+                `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`,
                 "Don't change the version"
             ],
             when: () => {
@@ -160,19 +160,19 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         if (answers.version != "Don't change the version")
             log_1.info(`Increasing the version (${answers.version})`);
-        if (answers.version == `PATCH => ${semver.inc(oldVersion, "patch")}`)
+        if (answers.version == `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`)
             exec_1.exec("npm version patch");
-        if (answers.version == `MINOR => ${semver.inc(oldVersion, "minor")}`)
+        if (answers.version == `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`)
             exec_1.exec("npm version minor");
-        if (answers.version == `MAJOR => ${semver.inc(oldVersion, "major")}`)
+        if (answers.version == `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`)
             exec_1.exec("npm version major");
-        if (answers.version == `pre-patch => ${semver.inc(oldVersion, "prepatch")}`)
+        if (answers.version == `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`)
             exec_1.exec("npm version prepatch");
-        if (answers.version == `pre-minor => ${semver.inc(oldVersion, "preminor")}`)
+        if (answers.version == `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`)
             exec_1.exec("npm version preminor");
-        if (answers.version == `pre-major => ${semver.inc(oldVersion, "premajor")}`)
+        if (answers.version == `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`)
             exec_1.exec("npm version premajor");
-        if (answers.version == `pre-release => ${semver.inc(oldVersion, "prerelease")}`)
+        if (answers.version == `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`)
             exec_1.exec("npm version prerelease");
         let published = [];
         if (publishToNPM) {
@@ -200,7 +200,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         let resultMessage = "";
         resultMessage += `Published module to: ${published.toString()}`;
         if (targetModule.isNPM())
-            resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
+            resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
         log_1.boxMessageResult(resultMessage, chalk_1.default.greenBright, true);
     }))
         .catch(err => {
