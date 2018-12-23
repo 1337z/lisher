@@ -23,7 +23,7 @@ exports.boxMessageSuccess = (message, center = false) => {
         exports.success(boxen(message, { float: "left", borderStyle: "round" }));
     else
         exports.success(boxen(message, { float: "center", borderStyle: "round" }));
-    console.log("");
+    exports.log("");
 };
 exports.boxMessage = (message, color, center = false) => {
     if (!center)
@@ -36,4 +36,5 @@ exports.boxMessageResult = (message, color, center = false) => {
         console.log(color(boxen(message, { float: "left", padding: 1, borderStyle: "round" })));
     else
         console.log(color(boxen(message, { float: "center", padding: 1, borderStyle: "round" })));
+    exports.log("");
 };
