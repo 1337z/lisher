@@ -6,6 +6,8 @@
 
 ## :star: Features
 
+![Preview](https://i.imgur.com/wJnWbSW.gif)
+
 Pub`lish` your module to NPM, GIT and VSCE with a single command.  
 You can choose where you want your module to be published.  
 Lisher will detect task managers as grunt and will ask you to run them before publishing!  
@@ -43,6 +45,7 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 ```
 
 ## :clapper: Preview
+### _Outdated!_
 
 <details>
 <summary>GIT</summary>
