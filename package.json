@@ -1,6 +1,6 @@
 {
   "name": "lisher",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "(Pub)lisher for NPM, GIT, and more..",
   "main": "src/index.js",
   "bin": {
