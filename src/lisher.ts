@@ -1,6 +1,6 @@
 import * as inquirer from "inquirer"
 import * as fs from "fs"
-import { info, log, boxMessage, boxMessageSuccess } from "./log/log"
+import { info, log, boxMessage, boxMessageSuccess, boxMessageResult } from './log/log';
 import { isGIT, isNPM, isVSCE, isGRUNT } from "./detector/detector"
 import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
@@ -195,7 +195,7 @@ export const run = async (_argv: string[]) => {
       resultMessage += `Published module to: ${published.toString()}`
       if (isNPM()) resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
 
-      boxMessage(resultMessage, chalk.greenBright, true)
+      boxMessageResult(resultMessage, chalk.greenBright, true)
     })
     .catch(err => {
       // Throw an error if something goes wrong

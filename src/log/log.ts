@@ -24,9 +24,15 @@ export const debugInfo = (message: any) => {
 export const boxMessageSuccess = (message: string, center: boolean = false) => {
   if (!center) success(boxen(message, { float: "left", borderStyle: "round" }))
   else success(boxen(message, { float: "center", borderStyle: "round" }))
+  console.log("")
 }
 
 export const boxMessage = (message: string, color: Chalk, center: boolean = false) => {
   if (!center) console.log(color(boxen(message, { float: "left", borderStyle: "round" })))
   else console.log(color(boxen(message, { float: "center", borderStyle: "round" })))
+}
+
+export const boxMessageResult = (message: string, color: Chalk, center: boolean = false) => {
+  if (!center) console.log(color(boxen(message, { float: "left", padding: 1, borderStyle: "round" })))
+  else console.log(color(boxen(message, { float: "center", padding: 1, borderStyle: "round" })))
 }

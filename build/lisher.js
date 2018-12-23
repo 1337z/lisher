@@ -200,7 +200,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         resultMessage += `Published module to: ${published.toString()}`;
         if (detector_1.isNPM())
             resultMessage += "\n" + `Version: ${oldVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
-        log_1.boxMessage(resultMessage, chalk_1.default.greenBright, true);
+        log_1.boxMessageResult(resultMessage, chalk_1.default.greenBright, true);
     }))
         .catch(err => {
         if (err)
