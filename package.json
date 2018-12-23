@@ -1,6 +1,6 @@
 {
   "name": "lisher",
-  "version": "1.8.4",
+  "version": "1.9.0-0",
   "description": "(Pub)lisher for NPM, GIT, and more..",
   "main": "./bin/cli-lisher.js",
   "bin": {
