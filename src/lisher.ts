@@ -56,6 +56,7 @@ export const run = async (_argv: string[]) => {
                 info("Commiting changes..")
                 exec("git add *")
                 exec(`git commit -m "${answers.commit_message}"`)
+                boxMessageSuccess("Commited changes!")
               })
               .catch(err => {
                 if (err) throw err

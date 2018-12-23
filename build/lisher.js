@@ -66,6 +66,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
                         log_1.info("Commiting changes..");
                         exec_1.exec("git add *");
                         exec_1.exec(`git commit -m "${answers.commit_message}"`);
+                        log_1.boxMessageSuccess("Commited changes!");
                     })
                         .catch(err => {
                         if (err)
