@@ -27,8 +27,6 @@ export const run = async (_argv: string[]) => {
 
   setDebuggerEnabled(debug)
 
-  if(argv.version) info("Lisher: " + require("../package.json").version)
-
   // Check for unstaged changes
   if (isGIT()) {
     const unstagedFiles = execRaw("git diff --name-only").toString()
