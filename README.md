@@ -16,6 +16,7 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 - GIT
 - NPM (Node Package Manager)
 - VSCE (Visual Studio Code Extension [Marketplace])
+- Want more? Send an [issue](https://github.com/1337z/lisher/issues/new) or [pull request](https://github.com/1337z/lisher/pulls) :)
 
 ### Detections
 
@@ -25,6 +26,7 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 - Detect NPM module
 - Detect VS Code extension
 - Detect Gruntfile
+- Want more? Send an [issue](https://github.com/1337z/lisher/issues/new) or [pull request](https://github.com/1337z/lisher/pulls) :)
 
 ## :package: Install
 
