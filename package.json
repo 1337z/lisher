@@ -1,7 +1,7 @@
 {
   "name": "lisher",
   "version": "1.9.0-0",
-  "description": "(Pub)lisher for NPM, GIT, and more..",
+  "description": "CLI | (Pub)lisher will release your NPM/GIT/VSCE project to the locations you choose.",
   "main": "./bin/cli-lisher.js",
   "bin": {
     "lisher": "./bin/cli-lisher.js"
@@ -18,6 +18,11 @@
     "lisher",
     "publisher",
     "publish",
+    "release",
+    "upload",
+    "managing",
+    "task",
+    "grunt",
     "git",
     "npm",
     "vsce"
