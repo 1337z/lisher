@@ -15,4 +15,3 @@ test("Argument: -v", t => {
 
   t.is(result, JSON.parse(readFileSync("package.json")).version + "\n")
 })
-
