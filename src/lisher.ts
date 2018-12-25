@@ -11,19 +11,19 @@ import chalk from "chalk"
 const semver = require("semver")
 
 // Global variables
-let argv: any // Yargs
-let debugStatus = false //Debug status
-let avaiblePublishProviders: Array<object> = []
-let targetModuleInfo: any
+export let argv: any // Yargs
+export let debugStatus = false //Debug status
+export let avaiblePublishProviders: Array<object> = []
+export let targetModuleInfo: any
 
 if (targetModule.isNPM()) targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
 
-let oldTargetModuleVersion: string
+export let oldTargetModuleVersion: string
 
 if (targetModule.isNPM()) oldTargetModuleVersion = targetModuleInfo.version
 
 // Inital function
-export const run = async (_argv: string[]) => {
+export const run = async (_argv: any) => {
   argv = _argv
   debugStatus = argv.debug
 

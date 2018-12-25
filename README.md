@@ -48,12 +48,12 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 
 #### Grunt
 
-If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before publishing the module. If you select __Yes__ (standard selection) `lisher` will run Grunt for you.
+If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before publishing the module. If you select **Yes** (standard selection) `lisher` will run Grunt for you.
 
 ### Publish to a git repository
 
 > If you have uncommited files, it's good to commit them before publishing the project. Lisher will ask you to do so if you haven't already.  
-> __Notice:__ When you commit your changes via the `lisher` interface you won't be able to set a commit __message body__ for the sake of fast publishing.
+> **Notice:** When you commit your changes via the `lisher` interface you won't be able to set a commit **message body** for the sake of fast publishing.
 
 1. First of all start Lisher
 
@@ -67,7 +67,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 ### Publish to NPM
 
 > If you have uncommited files, it's good to commit them before publishing the project. Lisher will ask you to do so if you haven't already.  
-> __Notice:__ When you commit your changes via the `lisher` interface you won't be able to set a commit __message body__ for the sake of fast publishing.
+> **Notice:** When you commit your changes via the `lisher` interface you won't be able to set a commit **message body** for the sake of fast publishing.
 
 1. First of all start Lisher
 
@@ -81,7 +81,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 ### Publish to the Visual Studio Code Marketplace
 
 > If you have uncommited files, it's good to commit them before publishing the project. Lisher will ask you to do so if you haven't already.  
-> __Notice:__ When you commit your changes via the `lisher` interface you won't be able to set a commit __message body__ for the sake of fast publishing.
+> **Notice:** When you commit your changes via the `lisher` interface you won't be able to set a commit **message body** for the sake of fast publishing.
 
 1. First of all start Lisher
 
