@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "8"
+  - "10"
+  - "node"
+  - "lts/*"
+os:
+  - windows
+  - linux
+  - osx
