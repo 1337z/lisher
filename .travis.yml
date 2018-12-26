@@ -8,3 +8,6 @@ os:
   - windows
   - linux
   - osx
+cache:
+  directories:
+    - "node_modules"
