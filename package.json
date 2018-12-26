@@ -1,6 +1,6 @@
 {
   "name": "lisher",
-  "version": "1.9.6",
+  "version": "1.10.0-0",
   "description": "CLI | (Pub)lisher will release your NPM/GIT/VSCE project to the locations you choose.",
   "main": "./bin/cli-lisher.js",
   "bin": {
