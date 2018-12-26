@@ -1,6 +1,6 @@
 # (Pub)lisher :rocket:
 
-[![Issues](https://img.shields.io/github/issues/1337z/lisher.svg)](https://github.com/1337z/lisher/issues) [![Forks](https://img.shields.io/github/forks/1337z/lisher.svg)](https://github.com/1337z/lisher/fork) [![Stars](https://img.shields.io/github/stars/1337z/lisher.svg)](https://github.com/1337z/lisher/stargazers) [![License](https://img.shields.io/github/license/1337z/lisher.svg)](LICENSE)
+[![Build Status](https://travis-ci.com/1337z/lisher.svg?branch=master)](https://travis-ci.com/1337z/lisher) [![Issues](https://img.shields.io/github/issues/1337z/lisher.svg)](https://github.com/1337z/lisher/issues) [![Forks](https://img.shields.io/github/forks/1337z/lisher.svg)](https://github.com/1337z/lisher/fork) [![Stars](https://img.shields.io/github/stars/1337z/lisher.svg)](https://github.com/1337z/lisher/stargazers) [![License](https://img.shields.io/github/license/1337z/lisher.svg)](LICENSE)
 
 > Simple package publisher/releaser for your projects with live output!
 
