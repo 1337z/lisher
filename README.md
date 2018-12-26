@@ -14,6 +14,8 @@
 <strong><a href="#clipboard-usage">Usage</a></strong>
 |
 <strong><a href="#clapper-preview">Preview (outdated)</a></strong>
+|
+<strong><a href="#license">License</a></strong>
 </p>
 
 ----
