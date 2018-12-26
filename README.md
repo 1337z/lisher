@@ -4,6 +4,20 @@
 
 > Simple package publisher/releaser for your projects with live output!
 
+----
+
+<p align="center">
+<strong><a href="#star-features">Features</a></strong>
+|
+<strong><a href="#package-install">Installation</a></strong>
+|
+<strong><a href="#clipboard-usage">Usage</a></strong>
+|
+<strong><a href="#clapper-preview">Preview (outdated)</a></strong>
+</p>
+
+----
+
 ## :star: Features
 
 ![Preview](https://i.imgur.com/wJnWbSW.gif)
