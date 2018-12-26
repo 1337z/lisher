@@ -26,19 +26,16 @@ const exec_1 = require("./utils/exec");
 const debug_1 = require("./utils/debug");
 const chalk_1 = __importDefault(require("chalk"));
 const semver = require("semver");
-let argv;
-let debugStatus = false;
-let avaiblePublishProviders = [];
-let targetModuleInfo;
+exports.debugStatus = false;
+exports.avaiblePublishProviders = [];
 if (targetModule.isNPM())
-    targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
-let oldTargetModuleVersion;
+    exports.targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
 if (targetModule.isNPM())
-    oldTargetModuleVersion = targetModuleInfo.version;
+    exports.oldTargetModuleVersion = exports.targetModuleInfo.version;
 exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
-    argv = _argv;
-    debugStatus = argv.debug;
-    debug_1.setDebuggerEnabled(debugStatus);
+    exports.argv = _argv;
+    exports.debugStatus = exports.argv.debug;
+    debug_1.setDebuggerEnabled(exports.debugStatus);
     if (targetModule.isGIT()) {
         const unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
         if (unstagedFiles) {
@@ -90,7 +87,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         registerProvider("NPM");
     if (targetModule.isVSCE())
         registerProvider("VSCE");
-    if (debugStatus)
+    if (exports.debugStatus)
         registerProvider("Debug");
     let questions = [
         {
@@ -105,21 +102,21 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             type: "checkbox",
             name: "provider",
             message: "Please select where we should publish your module.\n",
-            choices: avaiblePublishProviders
+            choices: exports.avaiblePublishProviders
         },
         {
             type: "list",
             name: "version",
             message: "Is your publication a patch, a minor or a major change?\n",
             choices: [
-                `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`,
-                `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`,
-                `MAJOR =>  ${semver.inc(oldTargetModuleVersion, "major")}`,
+                `PATCH => ${semver.inc(exports.oldTargetModuleVersion, "patch")}`,
+                `MINOR => ${semver.inc(exports.oldTargetModuleVersion, "minor")}`,
+                `MAJOR =>  ${semver.inc(exports.oldTargetModuleVersion, "major")}`,
                 new inquirer.Separator(),
-                `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`,
-                `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`,
-                `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`,
-                `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`,
+                `pre-patch => ${semver.inc(exports.oldTargetModuleVersion, "prepatch")}`,
+                `pre-minor => ${semver.inc(exports.oldTargetModuleVersion, "preminor")}`,
+                `pre-major => ${semver.inc(exports.oldTargetModuleVersion, "premajor")}`,
+                `pre-release => ${semver.inc(exports.oldTargetModuleVersion, "prerelease")}`,
                 "Don't change the version"
             ],
             when: () => {
@@ -133,7 +130,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         const publishToGIT = answers.provider.indexOf("GIT") > -1;
         const publishToNPM = answers.provider.indexOf("NPM") > -1;
         const publishToVSCE = answers.provider.indexOf("VSCE") > -1;
-        const publishToDEBUG = debugStatus;
+        const publishToDEBUG = exports.debugStatus;
         const runGrunt = answers.grunt;
         if (runGrunt) {
             log_1.info("Running Grunt..");
@@ -160,19 +157,19 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         if (answers.version != "Don't change the version")
             log_1.info(`Increasing the version (${answers.version})`);
-        if (answers.version == `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`)
+        if (answers.version == `PATCH => ${semver.inc(exports.oldTargetModuleVersion, "patch")}`)
             exec_1.exec("npm version patch");
-        if (answers.version == `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`)
+        if (answers.version == `MINOR => ${semver.inc(exports.oldTargetModuleVersion, "minor")}`)
             exec_1.exec("npm version minor");
-        if (answers.version == `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`)
+        if (answers.version == `MAJOR => ${semver.inc(exports.oldTargetModuleVersion, "major")}`)
             exec_1.exec("npm version major");
-        if (answers.version == `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`)
+        if (answers.version == `pre-patch => ${semver.inc(exports.oldTargetModuleVersion, "prepatch")}`)
             exec_1.exec("npm version prepatch");
-        if (answers.version == `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`)
+        if (answers.version == `pre-minor => ${semver.inc(exports.oldTargetModuleVersion, "preminor")}`)
             exec_1.exec("npm version preminor");
-        if (answers.version == `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`)
+        if (answers.version == `pre-major => ${semver.inc(exports.oldTargetModuleVersion, "premajor")}`)
             exec_1.exec("npm version premajor");
-        if (answers.version == `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`)
+        if (answers.version == `pre-release => ${semver.inc(exports.oldTargetModuleVersion, "prerelease")}`)
             exec_1.exec("npm version prerelease");
         let published = [];
         if (publishToNPM) {
@@ -200,7 +197,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         let resultMessage = "";
         resultMessage += `Published module to: ${published.toString()}`;
         if (targetModule.isNPM())
-            resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
+            resultMessage += "\n" + `Version: ${exports.oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
         log_1.boxMessageResult(resultMessage, chalk_1.default.greenBright, true);
     }))
         .catch(err => {
@@ -209,5 +206,5 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     });
 });
 const registerProvider = (provider) => {
-    avaiblePublishProviders.push({ name: provider });
+    exports.avaiblePublishProviders.push({ name: provider });
 };
