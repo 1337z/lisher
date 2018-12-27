@@ -37,7 +37,8 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     exports.debugStatus = exports.argv.debug;
     debug_1.setDebuggerEnabled(exports.debugStatus);
     if (targetModule.isGIT()) {
-        const unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
+        let unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
+        unstagedFiles += exec_1.execRaw("git ls-files --others --exclude-standard").toString();
         if (unstagedFiles) {
             log_1.info("Git working directory not clean!\nPlease commit your changes before publishing.");
             log_1.log(unstagedFiles);

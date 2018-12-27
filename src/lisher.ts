@@ -31,7 +31,8 @@ export const run = async (_argv: any) => {
 
   // Check for unstaged changes
   if (targetModule.isGIT()) {
-    const unstagedFiles = execRaw("git diff --name-only").toString()
+    let unstagedFiles = execRaw("git diff --name-only").toString()
+    unstagedFiles += execRaw("git ls-files --others --exclude-standard").toString()
     if (unstagedFiles) {
       info("Git working directory not clean!\nPlease commit your changes before publishing.")
       log(unstagedFiles)

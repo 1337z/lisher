@@ -4,7 +4,7 @@
 
 > Simple package publisher/releaser for your projects with live output!
 
-----
+---
 
 <p align="center">
 <strong><a href="#star-features">Features</a></strong>
@@ -18,7 +18,7 @@
 <strong><a href="#license">License</a></strong>
 </p>
 
-----
+---
 
 ## :star: Features
 
