@@ -112,7 +112,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             choices: [
                 `PATCH => ${semver.inc(exports.oldTargetModuleVersion, "patch")}`,
                 `MINOR => ${semver.inc(exports.oldTargetModuleVersion, "minor")}`,
-                `MAJOR =>  ${semver.inc(exports.oldTargetModuleVersion, "major")}`,
+                `MAJOR => ${semver.inc(exports.oldTargetModuleVersion, "major")}`,
                 new inquirer.Separator(),
                 `pre-patch => ${semver.inc(exports.oldTargetModuleVersion, "prepatch")}`,
                 `pre-minor => ${semver.inc(exports.oldTargetModuleVersion, "preminor")}`,

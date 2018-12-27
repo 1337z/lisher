@@ -104,7 +104,7 @@ export const run = async (_argv: any) => {
       choices: [
         `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`,
         `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`,
-        `MAJOR =>  ${semver.inc(oldTargetModuleVersion, "major")}`,
+        `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`,
         new inquirer.Separator(),
         `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`,
         `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`,
