@@ -7,10 +7,6 @@ import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
 import chalk from "chalk"
 import * as choiceNames from "./choiceNames"
-import { prePatch } from './choiceNames';
-
-// Requires (modules with no, or buggy, TypeScript support)
-const semver = require("semver")
 
 // Global variables
 export let argv: any // Yargs
@@ -22,7 +18,10 @@ if (targetModule.isNPM()) targetModuleInfo = JSON.parse(fs.readFileSync("package
 
 export let oldTargetModuleVersion: string
 
-if (targetModule.isNPM()) oldTargetModuleVersion = targetModuleInfo.version
+if (targetModule.isNPM()) {
+  oldTargetModuleVersion = targetModuleInfo.version
+  choiceNames.setOldTargetModuleVersion(oldTargetModuleVersion)
+}
 
 // Inital function
 export const run = async (_argv: any) => {
@@ -81,6 +80,8 @@ export const run = async (_argv: any) => {
   if (targetModule.isNPM()) registerProvider("NPM")
   if (targetModule.isVSCE()) registerProvider("VSCE")
 
+  log(choiceNames.patch)
+
   if (debugStatus) registerProvider("Debug")
 
   let questions: any = [
@@ -104,14 +105,14 @@ export const run = async (_argv: any) => {
       name: "version",
       message: "Is your publication a patch, a minor or a major change?\n",
       choices: [
-        choiceNames.patch,
-        choiceNames.minor,
-        choiceNames.major,
+        choiceNames.patch(),
+        choiceNames.minor(),
+        choiceNames.major(),
         new inquirer.Separator(),
-        choiceNames.prePatch,
-        choiceNames.preMinor,
-        choiceNames.preMajor,
-        choiceNames.preRelease,
+        choiceNames.prePatch(),
+        choiceNames.preMinor(),
+        choiceNames.preMajor(),
+        choiceNames.preRelease(),
         "Don't change the version"
       ],
       when: () => {
@@ -157,13 +158,13 @@ export const run = async (_argv: any) => {
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
-      if (answers.version == choiceNames.patch) exec("npm version patch")
-      if (answers.version == choiceNames.minor) exec("npm version minor")
-      if (answers.version == choiceNames.major) exec("npm version major")
-      if (answers.version == choiceNames.prePatch) exec("npm version prepatch")
-      if (answers.version == choiceNames.preMinor) exec("npm version preminor")
-      if (answers.version == choiceNames.preMajor) exec("npm version premajor")
-      if (answers.version == choiceNames.preRelease) exec("npm version prerelease")
+      if (answers.version == choiceNames.patch()) exec("npm version patch")
+      if (answers.version == choiceNames.minor()) exec("npm version minor")
+      if (answers.version == choiceNames.major()) exec("npm version major")
+      if (answers.version == choiceNames.prePatch()) exec("npm version prepatch")
+      if (answers.version == choiceNames.preMinor()) exec("npm version preminor")
+      if (answers.version == choiceNames.preMajor()) exec("npm version premajor")
+      if (answers.version == choiceNames.preRelease()) exec("npm version prerelease")
 
       let published = []
 
