@@ -25,6 +25,7 @@ const log_1 = require("./log");
 const exec_1 = require("./utils/exec");
 const debug_1 = require("./utils/debug");
 const chalk_1 = __importDefault(require("chalk"));
+const choiceNames = __importStar(require("./choiceNames"));
 const semver = require("semver");
 exports.debugStatus = false;
 exports.avaiblePublishProviders = [];
@@ -110,14 +111,14 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
             name: "version",
             message: "Is your publication a patch, a minor or a major change?\n",
             choices: [
-                `PATCH => ${semver.inc(exports.oldTargetModuleVersion, "patch")}`,
-                `MINOR => ${semver.inc(exports.oldTargetModuleVersion, "minor")}`,
-                `MAJOR => ${semver.inc(exports.oldTargetModuleVersion, "major")}`,
+                choiceNames.patch,
+                choiceNames.minor,
+                choiceNames.major,
                 new inquirer.Separator(),
-                `pre-patch => ${semver.inc(exports.oldTargetModuleVersion, "prepatch")}`,
-                `pre-minor => ${semver.inc(exports.oldTargetModuleVersion, "preminor")}`,
-                `pre-major => ${semver.inc(exports.oldTargetModuleVersion, "premajor")}`,
-                `pre-release => ${semver.inc(exports.oldTargetModuleVersion, "prerelease")}`,
+                choiceNames.prePatch,
+                choiceNames.preMinor,
+                choiceNames.preMajor,
+                choiceNames.preRelease,
                 "Don't change the version"
             ],
             when: () => {
@@ -158,19 +159,19 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         if (answers.version != "Don't change the version")
             log_1.info(`Increasing the version (${answers.version})`);
-        if (answers.version == `PATCH => ${semver.inc(exports.oldTargetModuleVersion, "patch")}`)
+        if (answers.version == choiceNames.patch)
             exec_1.exec("npm version patch");
-        if (answers.version == `MINOR => ${semver.inc(exports.oldTargetModuleVersion, "minor")}`)
+        if (answers.version == choiceNames.minor)
             exec_1.exec("npm version minor");
-        if (answers.version == `MAJOR => ${semver.inc(exports.oldTargetModuleVersion, "major")}`)
+        if (answers.version == choiceNames.major)
             exec_1.exec("npm version major");
-        if (answers.version == `pre-patch => ${semver.inc(exports.oldTargetModuleVersion, "prepatch")}`)
+        if (answers.version == choiceNames.prePatch)
             exec_1.exec("npm version prepatch");
-        if (answers.version == `pre-minor => ${semver.inc(exports.oldTargetModuleVersion, "preminor")}`)
+        if (answers.version == choiceNames.preMinor)
             exec_1.exec("npm version preminor");
-        if (answers.version == `pre-major => ${semver.inc(exports.oldTargetModuleVersion, "premajor")}`)
+        if (answers.version == choiceNames.preMajor)
             exec_1.exec("npm version premajor");
-        if (answers.version == `pre-release => ${semver.inc(exports.oldTargetModuleVersion, "prerelease")}`)
+        if (answers.version == choiceNames.preRelease)
             exec_1.exec("npm version prerelease");
         let published = [];
         if (publishToNPM) {

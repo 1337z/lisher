@@ -6,6 +6,8 @@ import { info, log, boxMessage, boxMessageSuccess, boxMessageResult } from "./lo
 import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled, debugMessage } from "./utils/debug"
 import chalk from "chalk"
+import * as choiceNames from "./choiceNames"
+import { prePatch } from './choiceNames';
 
 // Requires (modules with no, or buggy, TypeScript support)
 const semver = require("semver")
@@ -102,14 +104,14 @@ export const run = async (_argv: any) => {
       name: "version",
       message: "Is your publication a patch, a minor or a major change?\n",
       choices: [
-        `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`,
-        `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`,
-        `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`,
+        choiceNames.patch,
+        choiceNames.minor,
+        choiceNames.major,
         new inquirer.Separator(),
-        `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`,
-        `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`,
-        `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`,
-        `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`,
+        choiceNames.prePatch,
+        choiceNames.preMinor,
+        choiceNames.preMajor,
+        choiceNames.preRelease,
         "Don't change the version"
       ],
       when: () => {
@@ -155,13 +157,13 @@ export const run = async (_argv: any) => {
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
-      if (answers.version == `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`) exec("npm version patch")
-      if (answers.version == `MINOR => ${semver.inc(oldTargetModuleVersion, "minor")}`) exec("npm version minor")
-      if (answers.version == `MAJOR => ${semver.inc(oldTargetModuleVersion, "major")}`) exec("npm version major")
-      if (answers.version == `pre-patch => ${semver.inc(oldTargetModuleVersion, "prepatch")}`) exec("npm version prepatch")
-      if (answers.version == `pre-minor => ${semver.inc(oldTargetModuleVersion, "preminor")}`) exec("npm version preminor")
-      if (answers.version == `pre-major => ${semver.inc(oldTargetModuleVersion, "premajor")}`) exec("npm version premajor")
-      if (answers.version == `pre-release => ${semver.inc(oldTargetModuleVersion, "prerelease")}`) exec("npm version prerelease")
+      if (answers.version == choiceNames.patch) exec("npm version patch")
+      if (answers.version == choiceNames.minor) exec("npm version minor")
+      if (answers.version == choiceNames.major) exec("npm version major")
+      if (answers.version == choiceNames.prePatch) exec("npm version prepatch")
+      if (answers.version == choiceNames.preMinor) exec("npm version preminor")
+      if (answers.version == choiceNames.preMajor) exec("npm version premajor")
+      if (answers.version == choiceNames.preRelease) exec("npm version prerelease")
 
       let published = []
 
