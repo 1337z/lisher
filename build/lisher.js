@@ -18,19 +18,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const inquirer = __importStar(require("inquirer"));
+const choiceNames = __importStar(require("./choiceNames"));
 const fs = __importStar(require("fs"));
+const inquirer = __importStar(require("inquirer"));
 const targetModule = __importStar(require("./targetModule"));
+const terminal = __importStar(require("./utils/exec"));
 const log_1 = require("./log");
-const exec_1 = require("./utils/exec");
 const debug_1 = require("./utils/debug");
 const chalk_1 = __importDefault(require("chalk"));
-const choiceNames = __importStar(require("./choiceNames"));
-exports.debugStatus = false;
 exports.avaiblePublishProviders = [];
-if (targetModule.isNPM())
-    exports.targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
+exports.debugStatus = false;
 if (targetModule.isNPM()) {
+    exports.targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
     exports.oldTargetModuleVersion = exports.targetModuleInfo.version;
     choiceNames.setOldTargetModuleVersion(exports.oldTargetModuleVersion);
 }
@@ -39,8 +38,8 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
     exports.debugStatus = exports.argv.debug;
     debug_1.setDebuggerEnabled(exports.debugStatus);
     if (targetModule.isGIT()) {
-        let unstagedFiles = exec_1.execRaw("git diff --name-only").toString();
-        unstagedFiles += exec_1.execRaw("git ls-files --others --exclude-standard").toString();
+        let unstagedFiles = terminal.execRaw("git diff --name-only").toString();
+        unstagedFiles += terminal.execRaw("git ls-files --others --exclude-standard").toString();
         if (unstagedFiles) {
             log_1.info("Git working directory not clean!\nPlease commit your changes before publishing.");
             log_1.log(unstagedFiles);
@@ -64,8 +63,8 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
                     ])
                         .then((answers) => {
                         log_1.info("Commiting changes..");
-                        exec_1.exec("git add *");
-                        exec_1.exec(`git commit -m "${answers.commit_message}"`);
+                        terminal.exec("git add *");
+                        terminal.exec(`git commit -m "${answers.commit_message}"`);
                         log_1.boxMessageSuccess("Commited changes!");
                     })
                         .catch(err => {
@@ -138,7 +137,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         const runGrunt = answers.grunt;
         if (runGrunt) {
             log_1.info("Running Grunt..");
-            exec_1.exec("grunt");
+            terminal.exec("grunt");
             if (targetModule.isGIT()) {
                 log_1.info("The changes made by Grunt need to be commited before publishing!");
                 yield inquirer
@@ -150,8 +149,8 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
                     }
                 ])
                     .then((answers) => {
-                    exec_1.exec("git add *");
-                    exec_1.exec(`git commit -m "${answers.commit_message}"`);
+                    terminal.exec("git add *");
+                    terminal.exec(`git commit -m "${answers.commit_message}"`);
                 })
                     .catch(err => {
                     if (err)
@@ -162,29 +161,29 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         if (answers.version != "Don't change the version")
             log_1.info(`Increasing the version (${answers.version})`);
         if (answers.version == choiceNames.patch())
-            exec_1.exec("npm version patch");
+            terminal.exec("npm version patch");
         if (answers.version == choiceNames.minor())
-            exec_1.exec("npm version minor");
+            terminal.exec("npm version minor");
         if (answers.version == choiceNames.major())
-            exec_1.exec("npm version major");
+            terminal.exec("npm version major");
         if (answers.version == choiceNames.prePatch())
-            exec_1.exec("npm version prepatch");
+            terminal.exec("npm version prepatch");
         if (answers.version == choiceNames.preMinor())
-            exec_1.exec("npm version preminor");
+            terminal.exec("npm version preminor");
         if (answers.version == choiceNames.preMajor())
-            exec_1.exec("npm version premajor");
+            terminal.exec("npm version premajor");
         if (answers.version == choiceNames.preRelease())
-            exec_1.exec("npm version prerelease");
+            terminal.exec("npm version prerelease");
         let published = [];
         if (publishToNPM) {
             log_1.info("Publishing to NPM..");
-            exec_1.exec("npm publish");
+            terminal.exec("npm publish");
             published.push("NPM");
             log_1.boxMessageSuccess("Published to NPM!");
         }
         if (publishToVSCE) {
             log_1.info("Publishing to the Visual Studio Code Marketplace..");
-            exec_1.exec("vsce publish");
+            terminal.exec("vsce publish");
             published.push("VSCE");
             log_1.boxMessageSuccess("Published to Visual Studio Code Marketplace!");
         }
@@ -194,7 +193,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         }
         if (publishToGIT) {
             log_1.info("Pushing to git repository..");
-            exec_1.exec("git push --follow-tags");
+            terminal.exec("git push --follow-tags");
             published.push("GIT");
             log_1.boxMessageSuccess("Pushed to git repository!");
         }

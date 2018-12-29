@@ -1,29 +1,33 @@
-// Imports
-import * as inquirer from "inquirer"
+// Imports (import everything from X)
+import * as choiceNames from "./choiceNames"
 import * as fs from "fs"
+import * as inquirer from "inquirer"
 import * as targetModule from "./targetModule"
+import * as terminal from "./utils/exec"
+
+// Imports
 import { info, log, boxMessageSuccess, boxMessageResult } from "./log"
-import { exec, execRaw } from "./utils/exec"
 import { setDebuggerEnabled } from "./utils/debug"
 import chalk from "chalk"
-import * as choiceNames from "./choiceNames"
 
 // Global variables
 export let argv: any // Yargs
-export let debugStatus = false //Debug status
 export let avaiblePublishProviders: Array<object> = []
+export let debugStatus = false // Debug status
+export let oldTargetModuleVersion: string
 export let targetModuleInfo: any
 
-if (targetModule.isNPM()) targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
-
-export let oldTargetModuleVersion: string
-
+// Set information about the target module (if package.json is found)
 if (targetModule.isNPM()) {
+  targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
   oldTargetModuleVersion = targetModuleInfo.version
   choiceNames.setOldTargetModuleVersion(oldTargetModuleVersion)
 }
 
-// Inital function
+/**
+ * Initial function
+ * @param _argv CLI arguments => yargs
+ */
 export const run = async (_argv: any) => {
   argv = _argv
   debugStatus = argv.debug
@@ -32,8 +36,8 @@ export const run = async (_argv: any) => {
 
   // Check for unstaged changes
   if (targetModule.isGIT()) {
-    let unstagedFiles = execRaw("git diff --name-only").toString()
-    unstagedFiles += execRaw("git ls-files --others --exclude-standard").toString()
+    let unstagedFiles = terminal.execRaw("git diff --name-only").toString()
+    unstagedFiles += terminal.execRaw("git ls-files --others --exclude-standard").toString()
     if (unstagedFiles) {
       info("Git working directory not clean!\nPlease commit your changes before publishing.")
       log(unstagedFiles)
@@ -58,8 +62,8 @@ export const run = async (_argv: any) => {
               ])
               .then((answers: any) => {
                 info("Commiting changes..")
-                exec("git add *")
-                exec(`git commit -m "${answers.commit_message}"`)
+                terminal.exec("git add *")
+                terminal.exec(`git commit -m "${answers.commit_message}"`)
                 boxMessageSuccess("Commited changes!")
               })
               .catch(err => {
@@ -134,7 +138,7 @@ export const run = async (_argv: any) => {
 
       if (runGrunt) {
         info("Running Grunt..")
-        exec("grunt")
+        terminal.exec("grunt")
         if (targetModule.isGIT()) {
           info("The changes made by Grunt need to be commited before publishing!")
           await inquirer
@@ -146,8 +150,8 @@ export const run = async (_argv: any) => {
               }
             ])
             .then((answers: any) => {
-              exec("git add *")
-              exec(`git commit -m "${answers.commit_message}"`)
+              terminal.exec("git add *")
+              terminal.exec(`git commit -m "${answers.commit_message}"`)
             })
             .catch(err => {
               if (err) throw err
@@ -158,20 +162,20 @@ export const run = async (_argv: any) => {
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
-      if (answers.version == choiceNames.patch()) exec("npm version patch")
-      if (answers.version == choiceNames.minor()) exec("npm version minor")
-      if (answers.version == choiceNames.major()) exec("npm version major")
-      if (answers.version == choiceNames.prePatch()) exec("npm version prepatch")
-      if (answers.version == choiceNames.preMinor()) exec("npm version preminor")
-      if (answers.version == choiceNames.preMajor()) exec("npm version premajor")
-      if (answers.version == choiceNames.preRelease()) exec("npm version prerelease")
+      if (answers.version == choiceNames.patch()) terminal.exec("npm version patch")
+      if (answers.version == choiceNames.minor()) terminal.exec("npm version minor")
+      if (answers.version == choiceNames.major()) terminal.exec("npm version major")
+      if (answers.version == choiceNames.prePatch()) terminal.exec("npm version prepatch")
+      if (answers.version == choiceNames.preMinor()) terminal.exec("npm version preminor")
+      if (answers.version == choiceNames.preMajor()) terminal.exec("npm version premajor")
+      if (answers.version == choiceNames.preRelease()) terminal.exec("npm version prerelease")
 
       let published = []
 
       // Publish to NPM
       if (publishToNPM) {
         info("Publishing to NPM..")
-        exec("npm publish")
+        terminal.exec("npm publish")
         published.push("NPM")
         boxMessageSuccess("Published to NPM!")
       }
@@ -179,7 +183,7 @@ export const run = async (_argv: any) => {
       // Publish to Visual Studio Code Marketplace
       if (publishToVSCE) {
         info("Publishing to the Visual Studio Code Marketplace..")
-        exec("vsce publish")
+        terminal.exec("vsce publish")
         published.push("VSCE")
         boxMessageSuccess("Published to Visual Studio Code Marketplace!")
       }
@@ -192,7 +196,7 @@ export const run = async (_argv: any) => {
       // Publish to git repository (Last step!)
       if (publishToGIT) {
         info("Pushing to git repository..")
-        exec("git push --follow-tags")
+        terminal.exec("git push --follow-tags")
         published.push("GIT")
         boxMessageSuccess("Pushed to git repository!")
       }
