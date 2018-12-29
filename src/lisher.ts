@@ -2,9 +2,9 @@
 import * as inquirer from "inquirer"
 import * as fs from "fs"
 import * as targetModule from "./targetModule"
-import { info, log, boxMessage, boxMessageSuccess, boxMessageResult } from "./log"
+import { info, log, boxMessageSuccess, boxMessageResult } from "./log"
 import { exec, execRaw } from "./utils/exec"
-import { setDebuggerEnabled, debugMessage } from "./utils/debug"
+import { setDebuggerEnabled } from "./utils/debug"
 import chalk from "chalk"
 import * as choiceNames from "./choiceNames"
 
