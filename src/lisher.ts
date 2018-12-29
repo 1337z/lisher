@@ -84,8 +84,6 @@ export const run = async (_argv: any) => {
   if (targetModule.isNPM()) registerProvider("NPM")
   if (targetModule.isVSCE()) registerProvider("VSCE")
 
-  log(choiceNames.patch)
-
   if (debugStatus) registerProvider("Debug")
 
   let questions: any = [

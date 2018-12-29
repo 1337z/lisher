@@ -89,7 +89,6 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         registerProvider("NPM");
     if (targetModule.isVSCE())
         registerProvider("VSCE");
-    log_1.log(choiceNames.patch);
     if (exports.debugStatus)
         registerProvider("Debug");
     let questions = [
