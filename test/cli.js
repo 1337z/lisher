@@ -1,8 +1,6 @@
-import test from "ava"
-import * as lisher from "../build/lisher"
 import { execSync } from "child_process"
 import { readFileSync } from "fs"
-const mockIo = require("mock-stdio")
+import test from "ava"
 
 test("Argument: --version", t => {
   let result = execSync("node ./bin/cli-lisher --version").toString()
