@@ -1,23 +1,23 @@
 // Imports (import everything from X)
-import * as choiceNames from "./choiceNames"
-import * as fs from "fs"
-import * as inquirer from "inquirer"
-import * as targetModule from "./targetModule"
-import * as terminal from "./utils/terminal"
+import * as choiceNames from "./choiceNames" // List of publisher names displayed in lisher
+import * as fs from "fs" // Filesystem
+import * as inquirer from "inquirer" // CLI questions: https://www.npmjs.com/package/inquirer
+import * as targetModule from "./targetModule" // Information about the user selected project
+import * as terminal from "./utils/terminal" // Exec commands in user terminal
 
 // Imports
-import { info, log, boxMessageSuccess, boxMessageResult } from "./log"
-import { setDebuggerEnabled } from "./utils/debug"
-import chalk from "chalk"
+import { info, log, boxMessageSuccess, boxMessageResult } from "./log" // Logger
+import { setDebuggerEnabled } from "./utils/debug" // Dbugger
+import chalk from "chalk" // Colored terminal output
 
 // Global variables
-export let argv: any // Yargs
-export let avaiblePublishProviders: Array<object> = []
+export let argv: any // Yargs: https://www.npmjs.com/package/yargs-parser
+export let avaiblePublishProviders: Array<object> = [] // Array with all possible/detected publish providers
 export let debugStatus = false // Debug status
-export let oldTargetModuleVersion: string
-export let targetModuleInfo: any
+export let oldTargetModuleVersion: string // Version of user selected module
+export let targetModuleInfo: any // Information about the user selected project
 
-// Set information about the target module (if package.json is found)
+// Set information about the target module (if 'package.json' is found)
 if (targetModule.isNPM()) {
   targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
   oldTargetModuleVersion = targetModuleInfo.version
@@ -157,6 +157,7 @@ export const run = async (_argv: any) => {
         }
       }
 
+      // Inform about version change
       if (answers.version != "Don't change the version") info(`Increasing the version (${answers.version})`)
 
       // Version the 'package.json'
@@ -168,6 +169,7 @@ export const run = async (_argv: any) => {
       if (answers.version == choiceNames.preMajor()) terminal.exec("npm version premajor")
       if (answers.version == choiceNames.preRelease()) terminal.exec("npm version prerelease")
 
+      // Array of finished publish providers
       let published = []
 
       // Publish to NPM
@@ -186,6 +188,7 @@ export const run = async (_argv: any) => {
         boxMessageSuccess("Published to Visual Studio Code Marketplace!")
       }
 
+      // If lisher was run in debug mode
       if (publishToDEBUG) {
         published.push("DEBUG")
         boxMessageSuccess("'Published' to debug!")
@@ -199,8 +202,8 @@ export const run = async (_argv: any) => {
         boxMessageSuccess("Pushed to git repository!")
       }
 
+      // Create result message
       let resultMessage = ""
-
       resultMessage += `Published module to: ${published.toString()}`
       if (targetModule.isNPM())
         resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
