@@ -7,5 +7,5 @@ export const execRaw = execSync
  * @param command Command to execute
  */
 export const exec = (command: string) => {
-  execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
+  return execSync(command, { stdio: [process.stdin, process.stdout, process.stderr] })
 }

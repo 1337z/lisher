@@ -3,7 +3,7 @@ import * as choiceNames from "./choiceNames"
 import * as fs from "fs"
 import * as inquirer from "inquirer"
 import * as targetModule from "./targetModule"
-import * as terminal from "./utils/exec"
+import * as terminal from "./utils/terminal"
 
 // Imports
 import { info, log, boxMessageSuccess, boxMessageResult } from "./log"
