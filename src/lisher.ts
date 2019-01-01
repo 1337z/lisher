@@ -2,6 +2,7 @@
 import * as choiceNames from "./choiceNames" // List of publisher names displayed in lisher
 import * as fs from "fs" // Filesystem
 import * as inquirer from "inquirer" // CLI questions: https://www.npmjs.com/package/inquirer
+import * as jsonHelper from "./utils/jsonHelper" // Get JSON from File
 import * as targetModule from "./targetModule" // Information about the user selected project
 import * as terminal from "./utils/terminal" // Exec commands in user terminal
 
@@ -19,7 +20,7 @@ export let targetModuleInfo: any // Information about the user selected project
 
 // Set information about the target module (if 'package.json' is found)
 if (targetModule.isNPM()) {
-  targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString())
+  targetModuleInfo = jsonHelper.fromFile("package.json")
   oldTargetModuleVersion = targetModuleInfo.version
   choiceNames.setOldTargetModuleVersion(oldTargetModuleVersion)
 }
@@ -205,8 +206,7 @@ export const run = async (_argv: any) => {
       // Create result message
       let resultMessage = ""
       resultMessage += `Published module to: ${published.toString()}`
-      if (targetModule.isNPM())
-        resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`
+      if (targetModule.isNPM()) resultMessage += "\n" + `Version: ${oldTargetModuleVersion} => ${jsonHelper.fromFile("package.json").version} | ${answers.version.split(" ")[0]}`
 
       boxMessageResult(resultMessage, chalk.greenBright, true)
     })
