@@ -1,7 +1,7 @@
 # Do not upload code style settings
-.prettierrc
-.prettierignore
 .eslintrc
+.prettierignore
+.prettierrc
 
 # Do not upload TypeScript settings
 tsconfig.json
