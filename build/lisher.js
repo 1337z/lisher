@@ -19,8 +19,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const choiceNames = __importStar(require("./choiceNames"));
-const fs = __importStar(require("fs"));
 const inquirer = __importStar(require("inquirer"));
+const jsonHelper = __importStar(require("./utils/jsonHelper"));
 const targetModule = __importStar(require("./targetModule"));
 const terminal = __importStar(require("./utils/terminal"));
 const log_1 = require("./log");
@@ -29,7 +29,7 @@ const chalk_1 = __importDefault(require("chalk"));
 exports.avaiblePublishProviders = [];
 exports.debugStatus = false;
 if (targetModule.isNPM()) {
-    exports.targetModuleInfo = JSON.parse(fs.readFileSync("package.json").toString());
+    exports.targetModuleInfo = jsonHelper.fromFile("package.json");
     exports.oldTargetModuleVersion = exports.targetModuleInfo.version;
     choiceNames.setOldTargetModuleVersion(exports.oldTargetModuleVersion);
 }
@@ -199,7 +199,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         let resultMessage = "";
         resultMessage += `Published module to: ${published.toString()}`;
         if (targetModule.isNPM())
-            resultMessage += "\n" + `Version: ${exports.oldTargetModuleVersion} => ${JSON.parse(fs.readFileSync("package.json").toString()).version} | ${answers.version.split(" ")[0]}`;
+            resultMessage += "\n" + `Version: ${exports.oldTargetModuleVersion} => ${jsonHelper.fromFile("package.json").version} | ${answers.version.split(" ")[0]}`;
         log_1.boxMessageResult(resultMessage, chalk_1.default.greenBright, true);
     }))
         .catch(err => {
