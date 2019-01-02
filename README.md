@@ -157,7 +157,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 ```
 MIT License
 
-Copyright (c) 2018 MarvinJWendt
+Copyright (c) 2018-2019 MarvinJWendt
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
