@@ -62,7 +62,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
                         }
                     ])
                         .then((answers) => {
-                        log_1.info("Commiting changes..");
+                        log_1.info("Committing changes..");
                         terminal.exec("git add *");
                         terminal.exec(`git commit -m "${answers.commit_message}"`);
                         log_1.boxMessageSuccess("Commited changes!");

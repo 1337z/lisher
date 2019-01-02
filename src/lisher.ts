@@ -62,7 +62,7 @@ export const run = async (_argv: any) => {
                 }
               ])
               .then((answers: any) => {
-                info("Commiting changes..")
+                info("Committing changes..")
                 terminal.exec("git add *")
                 terminal.exec(`git commit -m "${answers.commit_message}"`)
                 boxMessageSuccess("Commited changes!")
