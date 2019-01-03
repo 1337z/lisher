@@ -103,7 +103,7 @@ exports.run = (_argv) => __awaiter(this, void 0, void 0, function* () {
         {
             type: "checkbox",
             name: "provider",
-            message: `Please select where we should publish your module. ${exports.targetModuleInfo.name}\n`,
+            message: `Please select where we should publish your module (${exports.targetModuleInfo.name}).\n`,
             choices: exports.avaiblePublishProviders
         },
         {
