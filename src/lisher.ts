@@ -99,7 +99,7 @@ export const run = async (_argv: any) => {
     {
       type: "checkbox",
       name: "provider",
-      message: "Please select where we should publish your module.\n",
+      message: `Please select where we should publish your module. ${targetModuleInfo.name}\n`,
       choices: avaiblePublishProviders
     },
     // Ask for the version increase if a package.json is detected
