@@ -1,6 +1,5 @@
 // Imports (import everything from X)
 import * as choiceNames from "./choiceNames" // List of publisher names displayed in lisher
-import * as fs from "fs" // Filesystem
 import * as inquirer from "inquirer" // CLI questions: https://www.npmjs.com/package/inquirer
 import * as jsonHelper from "./utils/jsonHelper" // Get JSON from File
 import * as targetModule from "./targetModule" // Information about the user selected project
