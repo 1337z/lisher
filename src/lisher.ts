@@ -7,7 +7,7 @@ import * as terminal from "./utils/terminal" // Exec commands in user terminal
 
 // Imports
 import { info, log, boxMessageSuccess, boxMessageResult } from "./log" // Logger
-import { setDebuggerEnabled } from "./utils/debug" // Dbugger
+import { setDebuggerEnabled } from "./utils/debug" // Debugger
 import chalk from "chalk" // Colored terminal output
 
 // Global variables
