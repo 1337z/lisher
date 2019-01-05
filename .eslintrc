@@ -3,8 +3,12 @@
   "rules": {
     "prettier/prettier": "error"
   },
-  "env": {"es6": true, "commonjs": true, "node": true},
+  "env": {
+    "es6": true,
+    "commonjs": true,
+    "node": true
+  },
   "parserOptions": {
     "sourceType": "module"
-}
+  }
 }
