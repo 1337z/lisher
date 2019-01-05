@@ -9,7 +9,7 @@
   "preferGlobal": true,
   "scripts": {
     "compile": "tsc && npm run format",
-    "format": "prettier --write **/*.{js,ts,json,md}",
+    "format": "prettier --write **/*.{js,ts,json,md,yml}",
     "formatjs": "prettier --write **/*.js",
     "formatts": "prettier --write **/*.ts",
     "test": "ava --verbose"
