@@ -15,7 +15,7 @@ export let argv: any // Yargs: https://www.npmjs.com/package/yargs-parser
 export let avaiblePublishProviders: Array<object> = [] // Array with all possible/detected publish providers
 export let debugStatus = false // Debug status
 export let oldTargetModuleVersion: string // Version of user selected module
-export let targetModuleInfo: any // Information about the user selected project
+export let targetModuleInfo: any = {} // Information about the user selected project
 
 // Set information about the target module (if 'package.json' is found)
 if (targetModule.isNPM()) {

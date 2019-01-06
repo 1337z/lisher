@@ -28,6 +28,7 @@ const debug_1 = require("./utils/debug");
 const chalk_1 = __importDefault(require("chalk"));
 exports.avaiblePublishProviders = [];
 exports.debugStatus = false;
+exports.targetModuleInfo = {};
 if (targetModule.isNPM()) {
     exports.targetModuleInfo = jsonHelper.fromFile("package.json");
     exports.oldTargetModuleVersion = exports.targetModuleInfo.version;
