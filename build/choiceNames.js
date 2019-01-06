@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const semver = require("semver");
 let oldTargetModuleVersion;
 exports.setOldTargetModuleVersion = (version) => {
-    oldTargetModuleVersion = version || "";
+    oldTargetModuleVersion = version || "could not get version";
 };
 exports.patch = () => {
     return `PATCH => ${semver.inc(oldTargetModuleVersion, "patch")}`;

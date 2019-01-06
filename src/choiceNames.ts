@@ -3,7 +3,7 @@ const semver = require("semver")
 let oldTargetModuleVersion: string
 
 export const setOldTargetModuleVersion = (version: string) => {
-  oldTargetModuleVersion = version || ""
+  oldTargetModuleVersion = version || "could not get version"
 }
 
 export const patch = (): string => {
