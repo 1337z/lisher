@@ -8,7 +8,7 @@ repository:
   description: ":rocket: (Pub)lish your modules with style!"
 
   # A URL with more information about the repository
-  # homepage: https://example.github.io/
+  homepage: https://example.github.io/
 
   # Either `true` to make the repository private, or `false` to make it public.
   # private: false
