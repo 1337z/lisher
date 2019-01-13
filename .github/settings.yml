@@ -1,3 +1,5 @@
 _extends: .github-templates
 repository:
   name: lisher
+  description: ":rocket: (Pub)lish your modules with style!"
+  homepage: https://www.npmjs.com/package/lisher
