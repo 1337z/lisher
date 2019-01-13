@@ -8,34 +8,34 @@ repository:
   description: ":rocket: (Pub)lish your modules with style!"
 
   # A URL with more information about the repository
-  homepage: https://example.github.io/
+  homepage: https://github.com/1337z/lisher
 
   # Either `true` to make the repository private, or `false` to make it public.
-  # private: false
+  private: false
 
   # Either `true` to enable issues for this repository, `false` to disable them.
-  # has_issues: true
+  has_issues: true
 
   # Either `true` to enable the wiki for this repository, `false` to disable it.
-  # has_wiki: true
+  has_wiki: true
 
   # Either `true` to enable downloads for this repository, `false` to disable them.
-  # has_downloads: true
+  has_downloads: true
 
   # Updates the default branch for this repository.
-  # default_branch: master
+  default_branch: master
 
   # Either `true` to allow squash-merging pull requests, or `false` to prevent
   # squash-merging.
-  # allow_squash_merge: true
+  allow_squash_merge: true
 
   # Either `true` to allow merging pull requests with a merge commit, or `false`
   # to prevent merging pull requests with merge commits.
-  # allow_merge_commit: true
+  allow_merge_commit: false
 
   # Either `true` to allow rebase-merging pull requests, or `false` to prevent
   # rebase-merging.
-  # allow_rebase_merge: true
+  allow_rebase_merge: true
 
 # Labels: define labels for Issues and Pull Requests
 #labels:
