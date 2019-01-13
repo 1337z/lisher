@@ -5,7 +5,7 @@ repository:
   name: lisher
 
   # A short description of the repository that will show up on GitHub
-  description: :rocket: (Pub)lish your modules with style! :)
+  description: :rocket: (Pub)lish your modules with style!
 
   # A URL with more information about the repository
   # homepage: https://example.github.io/
