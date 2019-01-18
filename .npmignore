@@ -7,7 +7,7 @@
 tsconfig.json
 tslint.json
 
-# Gitattributes
+# Do not upload gitattributes
 .gitattributes
 
 # Do not upload the Code of Conduct
@@ -18,3 +18,6 @@ src/
 
 # Do not upload `.github` directory
 .github/
+
+# Do not upload TravisCI settings
+.travis.yml
