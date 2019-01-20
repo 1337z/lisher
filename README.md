@@ -49,7 +49,7 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 ## :package: Install
 
 ```command
-> npm i -g lisher
+$ npm i -g lisher
 ```
 
 ## :clipboard: Usage
@@ -57,7 +57,7 @@ You forgot to commit your changes? Don't worry, lisher will notify you and if yo
 > Simply run this command in your project directory. It will start the publish wizard :sparkles:
 
 ```command
-> lisher
+$ lisher
 ```
 
 ### Task managers
@@ -74,7 +74,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 1. First of all start Lisher
 
 ```command
-> lisher
+$ lisher
 ```
 
 2. Select `GIT`
@@ -88,7 +88,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 1. First of all start Lisher
 
 ```command
-> lisher
+$ lisher
 ```
 
 2. Select `NPM`
@@ -102,7 +102,7 @@ If `lisher` detects a _Gruntfile_, it will ask you to run Grunt for you before p
 1. First of all start Lisher
 
 ```command
-> lisher
+$ lisher
 ```
 
 2. Select `VSCE`
