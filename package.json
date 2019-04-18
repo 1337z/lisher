@@ -31,22 +31,22 @@
     "@types/chalk": "^2.2.0",
     "@types/inquirer": "0.0.44",
     "@types/node": "^11.9.5",
-    "ava": "^1.1.0",
-    "eslint": "^5.12.0",
+    "ava": "^1.4.1",
+    "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.0.0",
     "mock-stdio": "^1.0.3",
-    "prettier": "^1.15.3",
-    "semver": "^5.6.0",
-    "tslint": "^5.12.1",
+    "prettier": "^1.17.0",
+    "semver": "^5.7.0",
+    "tslint": "^5.16.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.4.3"
   },
   "dependencies": {
-    "boxen": "^3.0.0",
+    "boxen": "^3.1.0",
     "chalk": "^2.4.2",
-    "inquirer": "^6.2.1",
+    "inquirer": "^6.3.1",
     "update-notifier": "^2.5.0",
-    "yargs": "^13.2.1"
+    "yargs": "^13.2.2"
   },
   "repository": {
     "type": "git",
