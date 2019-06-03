@@ -31,7 +31,7 @@
     "@types/chalk": "^2.2.0",
     "@types/inquirer": "0.0.44",
     "@types/node": "^11.13.13",
-    "ava": "^1.4.1",
+    "ava": "^2.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
     "mock-stdio": "^1.0.3",
