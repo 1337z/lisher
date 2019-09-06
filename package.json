@@ -46,7 +46,7 @@
     "chalk": "^2.4.2",
     "inquirer": "^6.5.2",
     "update-notifier": "^3.0.1",
-    "yargs": "^13.2.4"
+    "yargs": "^14.0.0"
   },
   "repository": {
     "type": "git",
